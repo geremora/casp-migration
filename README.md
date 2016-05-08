@@ -12,7 +12,7 @@ is and run the following to install the dependencies:
 
 ```
 $ npm install
-``
+```
 
 #### Virtual Environment
 
