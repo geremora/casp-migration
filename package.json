@@ -1,0 +1,18 @@
+{
+  "name": "casp_migration",
+  "version": "1.0.0",
+  "description": "casp migration script project",
+  "main": "manage.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "Gabriel",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0-rc.4",
+    "nconf": "^0.8.4",
+    "pg": "^4.5.5",
+    "sequelize": "^3.23.0",
+    "tedious": "^1.14.0"
+  }
+}
