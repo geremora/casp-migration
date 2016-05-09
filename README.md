@@ -17,7 +17,7 @@ $ npm install
 #### Virtual Environment
 
 This project uses environmental variables and is able to read them from a `config.json` file,
-so lets set that up. Go into the `config` folder and copy the `config-example.json` or 'config.example.json' and name it
+so lets set that up. Go into the `config` folder and copy the `config-example.json` or `config.example.json` and name it
 `config.json` on that same directory.
 
 ```
