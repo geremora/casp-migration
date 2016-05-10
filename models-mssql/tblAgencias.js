@@ -53,12 +53,7 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: '(0)'
     }
   }, {
-    tableName: 'tblAgencias',
-    timestamps: false,
-    classMethods: {
-      associate: function (models) {
-          ///this.belongsTo(models.tblCiudades);
-      }
-    }
+      tableName: 'tblAgencias',
+      timestamps: false
   });
 };
