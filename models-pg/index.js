@@ -8,10 +8,12 @@ var username = nconf.get('POSTGRES_USER');
 var password = nconf.get('POSTGRES_PASSWORD');
 var database = nconf.get('POSTGRES_DATABASE');
 var host = nconf.get('POSTGRES_HOST');
+var port = nconf.get('POSTGRES_PORT');
 var dialect = 'postgres'
 
 var sequelize = new Sequelize(database, username, password, {
     host: host,
+    port: port,
     dialect: dialect,
     pool: {
         max: 5,
