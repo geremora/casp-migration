@@ -1,10 +1,5 @@
 "use strict";
 
-var PGModels = require('./models-pg');
-var MSModels = require('./models-mssql');
-
-var async = require('async');
-
 var manage = {};
 
 manage.testPGModel = function() {
