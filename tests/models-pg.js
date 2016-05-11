@@ -12,7 +12,9 @@ module.exports = function() {
                 callback(error);
             });
         }
-    }, function (error, results) {
+    }, 
+        
+        function (error, results) {
         if(error) {
             console.log(error);
         } else {
