@@ -5,27 +5,6 @@ const async = require('async');
 
 module.exports = function() {
     async.parallel({
-        auth_group: function(callback) {
-            PGModels.auth_group.findAll({raw: true}).then(function(authGroupList) {
-                callback(null, authGroupList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        auth_group_permissions: function(callback) {
-            PGModels.auth_group_permissions.findAll({raw: true}).then(function(authGroupPermissionsList) {
-                callback(null, authGroupPermissionsList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        auth_permission: function(callback) {
-            PGModels.auth_permission.findAll({raw: true}).then(function(authPermissionList) {
-                callback(null, authPermissionList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
         bugs_bug: function(callback) {
             PGModels.bugs_bug.findAll({raw: true}).then(function(bugsBugList) {
                 callback(null, bugsBugList.length);
@@ -33,16 +12,9 @@ module.exports = function() {
                 callback(error);
             });
         },
-        cache_table: function(callback) {
-            PGModels.cache_table.findAll({raw: true}).then(function(cacheTableList) {
-                callback(null, cacheTableList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
         cases_case: function(callback) {
             PGModels.cases_case.findAll({raw: true}).then(function(casesCaseList) {
-                callback(null, caseCaseList.length);
+                callback(null, casesCaseList.length);
             }).catch(function(error) {
                 callback(error);
             });
@@ -96,34 +68,6 @@ module.exports = function() {
                 callback(error);
             });
         },
-        django_admin_log: function(callback) {
-            PGModels.django_admin_log.findAll({raw: true}).then(function(djangoAdminList) {
-                callback(null, djangoAdminList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        django_content_type: function(callback) {
-            PGModels.django_content_type.findAll({raw: true}).then(function(djangoContentTypeList) {
-                callback(null, djangoContentTypeList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        django_session: function(callback) {
-            PGModels.django_session.findAll({raw: true}).then(function(djangoSessionList) {
-                callback(null, djangoSessionList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        django_site: function(callback) {
-            PGModels.django_site.findAll({raw: true}).then(function(djangoSiteList) {
-                callback(null, djangoSiteList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
         events_eventtype: function(callback) {
             PGModels.events_eventtype.findAll({raw: true}).then(function(eventsEventTypeList) {
                 callback(null, eventsEventTypeList.length);
@@ -138,8 +82,8 @@ module.exports = function() {
                 callback(error);
             });
         },
-        events_importedevents: function(callback) {
-            PGModels.events_importedevents.findAll({raw: true}).then(function(eventsImportEdeventsList) {
+        events_importedevent: function(callback) {
+            PGModels.events_importedevent.findAll({raw: true}).then(function(eventsImportEdeventsList) {
                 callback(null, eventsImportEdeventsList.length);
             }).catch(function(error) {
                 callback(error);
@@ -168,7 +112,7 @@ module.exports = function() {
         },
         events_outgoingevent_cases: function(callback) {
             PGModels.events_outgoingevent_cases.findAll({raw: true}).then(function(eventsOutgoingEventCasesList) {
-                callback(null, result.length);
+                callback(null, eventsOutgoingEventCasesList.length);
             }).catch(function(error) {
                 callback(error);
             });
@@ -228,29 +172,7 @@ module.exports = function() {
             }).catch(function(error) {
                 callback(error);
             });
-        },
-        reversion_revision: function(callback) {
-            PGModels.reversion_revision.findAll({raw: true}).then(function(reversionRevisionList) {
-                callback(null, reversionRevisionList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        reversion_version: function(callback) {
-            PGModels.reversion_version.findAll({raw: true}).then(function(reversionVersionList) {
-                callback(null, reversionVersionList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-        south_migrationhistory: function(callback) {
-            PGModels.south_migrationhistory.findAll({raw: true}).then(function(southMigrationHistoryList) {
-                callback(null, southMigrationHistoryList.length);
-            }).catch(function(error) {
-                callback(error);
-            });
-        },
-
+        }
     }, function (error, results) {
         if(error) {
             console.log(error);
