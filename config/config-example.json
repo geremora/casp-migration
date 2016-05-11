@@ -1,7 +1,12 @@
 {
+  "SQLSERVER_USER": "sa",
+  "SQLSERVER_PASSWORD": "YOUR_PASS",
+  "SQLSERVER_DATABASE": "Apelaciones5",
+  "SQLSERVER_HOST": "Localhost",
+  "SQLSERVER_PORT": 3402,
   "POSTGRES_USER": "postgres",
   "POSTGRES_PASSWORD": "postgres",
   "POSTGRES_DATABASE": "casp",
   "POSTGRES_HOST": "localhost",
-  "POSTGRES_PORT": 5434
+  "POSTGRES_PORT": 5432
 }
