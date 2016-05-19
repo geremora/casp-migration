@@ -9,6 +9,12 @@ manage.testPGModel = function() {
 manage.testMSModel = function () {
     require('./tests/models-mssql')();
 };
+manage.migrateMSSQL = function() {
+    require('./migrations-scripts/mssql-script')();
+};
+manage.migratePG = function() {
+    require('./migrations-scripts/pg-script')();
+};
 
 switch (process.argv[2]) {
     case "testPGModel": {
@@ -17,6 +23,14 @@ switch (process.argv[2]) {
     }
     case "testMSModel": {
         manage.testMSModel();
+        break;
+    }
+    case "migrate-mssql": {
+        manage.migrateMSSQL();
+        break;
+    }
+    case "migrate-pg": {
+        manage.migratePG();
         break;
     }
     default: {
