@@ -1,0 +1,15 @@
+{
+<<<<<<< HEAD
+=======
+  "SQLSERVER_USER": "sa",
+  "SQLSERVER_PASSWORD": "YOUR_PASS",
+  "SQLSERVER_DATABASE": "Apelaciones5",
+  "SQLSERVER_HOST": "Localhost",
+  "SQLSERVER_PORT": 3402,
+>>>>>>> 1cea34b3464b2eba728181374a3bfd0be5e9443f
+  "POSTGRES_USER": "postgres",
+  "POSTGRES_PASSWORD": "postgres",
+  "POSTGRES_DATABASE": "casp",
+  "POSTGRES_HOST": "localhost",
+  "POSTGRES_PORT": 5434
+}
