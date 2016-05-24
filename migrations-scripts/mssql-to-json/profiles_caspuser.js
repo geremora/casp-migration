@@ -4,7 +4,7 @@ var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const migrationFile = __dirname + "/../migrations/profiles_caspuser.json";
+const MIGRATION_FILE = __dirname + "/../migrations/profiles_caspuser.json";
 
 /**
  * Extract data from tblUsuarios and makes a json file  with the format
@@ -47,7 +47,7 @@ module.exports = function(callback) {
 
         // write to a json file.
         var userJson = {profiles_caspuser: pgUsers};
-        jsonfile.writeFileSync(migrationFile, userJson, {spaces: 4});
+        jsonfile.writeFileSync(MIGRATION_FILE, userJson, {spaces: 4});
         callback();
     }).catch(function(error) {
         console.error(error);

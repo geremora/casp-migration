@@ -86,6 +86,11 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'tblLcdoAgencia',
-    timestamps: false
+    timestamps: false,
+    classMethods: {
+      associate: function (models) {
+        this.belongsTo(models.tblCiudades, { foreignKey: 'CiudadId', constraints: false });
+      }
+    }
   });
 };

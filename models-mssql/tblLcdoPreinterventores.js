@@ -90,6 +90,11 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'tblLcdoPreinterventores',
-    timestamps: false
+    timestamps: false,
+    classMethods: {
+      associate: function (models) {
+        this.belongsTo(models.tblCiudades, { foreignKey: 'CiudadId', constraints: false });
+      }
+    }
   });
 };

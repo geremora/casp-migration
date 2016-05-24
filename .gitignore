@@ -3,3 +3,4 @@ config.json
 .DS_Store
 .idea/
 bower_components/
+migrations-scripts/migrations/
