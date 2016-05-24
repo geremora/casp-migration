@@ -28,9 +28,9 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = null;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             }).catch(function(error) {
-                cb(error);
+                return cb(error);
             });
         },
         tblCoApelantes: function(cb) {
@@ -53,7 +53,7 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = null;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             }).catch(function(error) {
                 cb(error);
             });
@@ -78,9 +78,9 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = lcdoAgencia.AgenciaId;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             }).catch(function(error) {
-                cb(error);
+                return cb(error);
             });
         },
         tblLcdoApelante: function(cb) {
@@ -103,11 +103,11 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = null;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             });
         },
         tblLcdoCoApelante: function(cb) {
-            MSModels.tblLcdoCoApelante.findAll({raw: true}).then(function(coApelantesList){
+            MSModels.tblLcdoCoApelantes.findAll({raw: true}).then(function(coApelantesList){
                 var pgContact = coApelantesList.map(function(lcdoCoApelante) {
                     var objContact = {};
                     objContact['id'] = lcdoCoApelante.LcdoCoApelanteId;
@@ -126,9 +126,9 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = null;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             }).catch(function(error) {
-                cb(error);
+                return cb(error);
             });
         },
         tblLcdoPreinterventores: function(cb) {
@@ -151,9 +151,9 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = null;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             }).catch(function(error) {
-                cb(error);
+                return cb(error);
             });
         },
         tblPreinterventores: function(cb) {
@@ -176,16 +176,16 @@ module.exports = function(callback) {
                     objContact['related_instutution_id'] = null;
                     return objContact;
                 });
-                cb(null, pgContact);
+                return cb(null, pgContact);
             }).catch(function(error) {
-                cb(error);
+                return cb(error);
             });
         }
     }, function(error, results) {
         if(error) {
-            callback(error);
+            return callback(error);
         } else {
-            mapContacts(callback, results);
+            return mapContacts(callback, results);
         }
     });
 };
@@ -193,5 +193,5 @@ module.exports = function(callback) {
 function mapContacts(callback, results) {
     var contactsJson = {contacts_contact: results};
     jsonfile.writeFileSync(migrationFile, contactsJson, {spaces: 4});
-    callback();
+    return callback();
 }
