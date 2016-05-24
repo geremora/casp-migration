@@ -7,4 +7,6 @@ const CONTACT_TYPES = {
     CIUDADANO: 6
 };
 
+
+
 module.exports.CONTACT_TYPES = CONTACT_TYPES;
