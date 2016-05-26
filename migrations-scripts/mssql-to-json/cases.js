@@ -25,8 +25,36 @@ module.exports = function(callback) {
                     objCase['case_type_id'] = CASE_SEQUENCE.case_type_id;
                     objCase['number'] = radicaciones.NumCaso;
                     objCase['description'] = CASE_CATEGORY.description;
-                    objCase['date_created'] = CASE_CONTAINER.date_created;
-                    objCase['date_updated'] = CASE_CONTAINER.date_updated;
+                    objCase['date_created'] = radicacion.FRegistrado;;         //CASE_CONTAINER.date_created;
+                    objCase['date_updated'] = radicacion.FMueveExp;     //CASE_CONTAINER.date_updated;
+                    objCase['date_accepted'] = radicaciones.FRadicado; //doubt
+                    objCase['created_by_id'] = PROFILE_USER.id;
+                    objCase['defendant_id'] = CONTACTS_CONTACT.id;
+                    objCase['plaintiff_id'] = CONTACTS_CONTACT.id; //doubt
+                    objCase['assigned_user_id'] = PROFILE_USER.id;
+                    objCase['case_category_id'] = CASE_CATEGORY.id;
+                    objCase['extra'] = null;
+                    objCase['did_confirm_case_type'] = "false";
+                    objCase['record_holder_id'] = PROFILE_USER.id;
+                    return objCase;
+                });
+                return cb(null, pgCases);
+            }).catch(function(error) {
+                return cb(error);
+            });
+        },
+        tblRadicaciones: function(cb) {
+            MSModels.tblRadicaciones.findAll({raw: true}).then(function(radicacionesList){
+                var pgCases = radicacionesList.map(function(radicaciones) {
+                    var objCase = {};
+                    objCase['id'] = radicaciones.RadicacionId;
+                    objCase['state'] = radicaciones.Pais;
+                    objCase['container_id'] = CASE_CONTAINER.container_id; //id de cases_Container
+                    objCase['case_type_id'] = CASE_SEQUENCE.case_type_id;
+                    objCase['number'] = radicaciones.NumCaso;
+                    objCase['description'] = CASE_CATEGORY.description;
+                    objCase['date_created'] = ;         //CASE_CONTAINER.date_created;
+                    objCase['date_updated'] = ;     //CASE_CONTAINER.date_updated;
                     objCase['date_accepted'] = radicaciones.FRadicado; //doubt
                     objCase['created_by_id'] = PROFILE_USER.id;
                     objCase['defendant_id'] = CONTACTS_CONTACT.id;
@@ -43,6 +71,7 @@ module.exports = function(callback) {
                 return cb(error);
             });
         }
+        
     }, function(error, results) {
         if(error) {
             return callback(error);
