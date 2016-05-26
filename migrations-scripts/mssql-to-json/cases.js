@@ -25,7 +25,7 @@ module.exports = function(callback) {
                     objCase['date_accepted'] = radicaciones.FRadicado == null ? "1999-01-08" : radicaciones.FRadicado;
                     objCase['created_by_id'] = radicaciones.UsuarioId;
                     objCase['defendant_id'] = radicaciones.AgenciaId + CONTACT_OFFSET_ID.OFFSET_TBL_AGENCIAS;
-                    objCase['plaintiff_id'] = radicaciones.UsuarioId;
+                    objCase['plaintiff_id'] = radicaciones.Comisionado;
                     objCase['assigned_user_id'] = radicaciones.OficialExaminador;
                     objCase['case_category_id'] = {
                         name: radicaciones.NombreCaso,
