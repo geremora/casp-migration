@@ -4,7 +4,7 @@ var async = require('async');
 var jsonfile = require('jsonfile');
 
 const migrationFile = __dirname + "/../migrations/cases_case.json";
-const CASES_OFFSET_ID = require('../constants/cases-constants.').CASES_OFFSETS_ID;
+const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 const CASES_TYPE = require('../constants/cases-constants').CASES_TYPE;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
 
