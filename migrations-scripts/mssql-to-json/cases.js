@@ -4,14 +4,7 @@ var async = require('async');
 var jsonfile = require('jsonfile');
 
 const migrationFile = __dirname + "/../migrations/cases_case.json";
-const CASE_CONTAINER = require('../models-pg/cases_casecontainer');
-const CASE_CATEGORY  = require('../models-pg/cases_casecategory');
-const CASE_CONTACTS  = require('../models-pg/cases_case_contacts');
-const CASE_SEQUENCE  = require('../models-pg/cases_casesequence');
-const PROFILE_USER =   require('../models-pg/profiles_caspuser');
-const CASES_CONTACT =   require('../models-pg/cases_contact');
-const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
-
+const CASES_OFFSET_ID = require('../constants/cases-constants.js').CASES_OFFSETS_ID;
 
 module.exports = function(callback) {
     async.series({
@@ -21,21 +14,25 @@ module.exports = function(callback) {
                     var objCase = {};
                     objCase['id'] = radicaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
                     objCase['state'] = radicaciones.Pais == null ? "PR" : radicaciones.Pais;
-                    objCase['container_id'] = CASE_CONTAINER.container_id; 
-                    objCase['case_type_id'] = CASE_SEQUENCE.case_type_id; 
-                    objCase['number'] = radicaciones.NumCaso == null ? "00000" : radicaciones.NumCaso;
-                    objCase['description'] = CASE_CATEGORY.description == null ? "No Address" : CASE_CATEGORY.description;
-                    objCase['date_created'] = CASE_CONTAINER.date_createdCASE_CONTAINER.date_created;
-                    objCase['date_updated'] = CASE_CONTAINER.date_updated == null ? "1999-01-08" : CASE_CONTAINER.date_updated;
+                    objCase['container_id'] = radicaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_CONTAINER;
+                    objCase['case_type_id'] = radicaciones.InActivo ? true : false;
+                    objCase['number'] = radicaciones.NumCaso;
+                    objCase['description'] = radicaciones.InformeOficial == null ? "No Description" : radicaciones.InformeOficial;
+                    objCase['date_created'] = radicaciones.FRegistrado;
+                    objCase['date_updated'] = radicaciones.FAccesado;//CASE_CONTAINER.date_updated == null ? "1999-01-08" : CASE_CONTAINER.date_updated;
                     objCase['date_accepted'] = radicaciones.FRadicado == null ? "1999-01-08" : radicaciones.FRadicado;
-                    objCase['created_by_id'] = PROFILE_USER.id; 
-                    objCase['defendant_id'] = CONTACTS_CONTACT.id;
-                    objCase['plaintiff_id'] = CONTACTS_CONTACT.id; 
-                    objCase['assigned_user_id'] = PROFILE_USER.id;
-                    objCase['case_category_id'] = CASE_CATEGORY.id;
+                    objCase['created_by_id'] = radicaciones.UsuarioId;
+                    objCase['defendant_id'] = radicaciones.UsuarioId + CONTACT_TYPES.ABOGADO_REPRESENTANTE;
+                    objCase['plaintiff_id'] = radicaciones.UsuarioId + CONTACT_TYPES.EMPLEADO;
+                    objCase['assigned_user_id'] = radicaciones.UsuarioId;
+                    objCase['case_category_id'] = {
+                        id: radicaciones.UsuarioId,
+                        name: radicaciones.NombreCaso,
+                        description: radicaciones.ComentarioOficial
+                    };
                     objCase['extra'] = "";
                     objCase['did_confirm_case_type'] = "false";
-                    objCase['record_holder_id'] = PROFILE_USER.id;
+                    objCase['record_holder_id'] = "";
                     return objCase;
                 });
                 return cb(null, pgCases);
@@ -43,6 +40,7 @@ module.exports = function(callback) {
                 return cb(error);
             });
         },
+
         
     }, function(error, results) {
         if(error) {

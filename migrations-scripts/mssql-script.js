@@ -21,7 +21,18 @@ module.exports = function () {
                 }
             });
 
+        },
+        cases: function(callback) {
+            require('./mssql-to-json/cases')(function(error) {
+                if(error) {
+                    callback(error);
+                } else {
+                    callback(null);
+                }
+            });
+
         }
+
     }, function(error, results) {
         if(error) {
             console.error(error);
