@@ -18,7 +18,7 @@ module.exports = function(callback) {
         });
 
         // write to a json file.
-        var userJson = {cases_contacts: objCase};
+        var cases_sequenceJson = {cases_contacts: pgCase};
         jsonfile.writeFileSync(migrationFile, cases_sequenceJson, {spaces: 4});
         callback();
     }).catch(function(error) {

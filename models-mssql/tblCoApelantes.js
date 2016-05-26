@@ -37,7 +37,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     Ciudadid: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      references: {
+        model: 'tblCiudades',
+        key: 'CiudadId'
+      }
     },
     Pais: {
       type: DataTypes.STRING,
@@ -82,6 +86,11 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'tblCoApelantes',
-    timestamps: false
+    timestamps: false,
+    classMethods: {
+      associate: function (models) {
+        this.belongsTo(models.tblCiudades, { foreignKey: 'CiudadId', constraints: false });
+      }
+    }
   });
 };

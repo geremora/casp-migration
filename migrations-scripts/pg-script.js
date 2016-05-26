@@ -10,7 +10,13 @@ module.exports = function () {
                     callback(null);
                 }
             });
-
+        },
+        contacts_contact: function(callback) {
+            require('./json-to-pg/contacts_contact')(function (error) {
+                if(error)
+                    return callback(error);
+                return callback(null);
+            });
         }
     }, function(error, results) {
         if(error) {

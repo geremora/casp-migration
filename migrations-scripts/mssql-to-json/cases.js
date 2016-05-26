@@ -10,7 +10,7 @@ const CASE_CONTACTS  = require('../models-pg/cases_case_contacts');
 const CASE_SEQUENCE  = require('../models-pg/cases_casesequence');
 const PROFILE_USER =   require('../models-pg/profiles_caspuser');
 const CONTACTS_CONTACT =   require('../models-pg/contacts_contact');
-const CONTACT_TYPES = require('../constants/pg-constants').CONTACT_TYPES;
+const CONTACT_TYPES = require('../constants/contacts-constants').CONTACT_TYPES;
 
 
 module.exports = function(callback) {
@@ -67,8 +67,6 @@ module.exports = function(callback) {
                     return objCase;
                 });
                 return cb(null, pgCases);
-            }).catch(function(error) {
-                return cb(error);
             });
         }
         
@@ -76,13 +74,13 @@ module.exports = function(callback) {
         if(error) {
             return callback(error);
         } else {
-            return mapContacts(callback, results);
+            return mapCases(callback, results);
         }
     });
 };
 
-function mapContacts(callback, results) {
-    var contactsJson = {cases: results};
+function mapCases(callback, results) {
+    var casesJson = {cases: results};
     jsonfile.writeFileSync(migrationFile, casesJson, {spaces: 4});
     return callback();
 }
