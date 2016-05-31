@@ -13,27 +13,42 @@ module.exports = function(callback) {
         tblCitaciones: function(cb) {
             MSModels.tblCitaciones.findAll({raw: true}).then(function (citacionesList) {
                 var pgMeetings = citacionesList.map(function (citaciones) {
-                    var objCitacion = {};
+                    var objMeeting = {};
 
-                    objCitacion['id'] = citaciones.id + MEETINGS_OFFSET_ID.OFFSET_TBL_CITACIONES;
-                    objCitacion['case_id'] = citaciones.RadicacionId + CASES_OFFSETS_ID.OFFSET_TBL_RADICACIONES; //extraer de cases_case
-                    objCitacion['room_id'] = citaciones.Sala;
+                    objMeeting['id'] = citaciones.id + MEETINGS_OFFSET_ID.OFFSET_TBL_CITACIONES;
+                    objMeeting['name'] = citaciones.RadicacionId + CASES_OFFSETS_ID.OFFSET_TBL_RADICACIONES; //extraer de cases_case
+                    objMeeting['location'] = citaciones.Sala;
+                    
+                    return objMeeting;
+                });
+                return cb(null, pgMeetings);
+            });
+        },
+        tblCitaciones: function(cb) {
+            MSModels.tblCitaciones.findAll({raw: true}).then(function (citacionesList) {
+                var pgMeetings = citacionesList.map(function (citaciones) {
+                    var objMeeting = {};
+
+                    objMeeting['id'] = citaciones.id + MEETINGS_OFFSET_ID.OFFSET_TBL_CITACIONES;
+                    objMeeting['case_id'] = citaciones.RadicacionId + CASES_OFFSETS_ID.OFFSET_TBL_RADICACIONES; //extraer de cases_case
+                    objMeeting['room_id'] = citaciones.Sala;
                     //{
                       //  name: citaciones., //verify
                         //location: citaciones.
                     //}; //extraer de meetings room
-                    objCitacion['notes'] = "";
+                    objMeeting['notes'] = "";
                     
-                    objCitacion['date_start'] = citaciones.FCitacion == null ? "1990-01-01" : citaciones.FCitacion;
-                    objCitacion['date_end'] = citaciones.FVista == null ? "1990-01-01" : citaciones.FVista;
-                    objCitacion['date_created'] = citaciones.FRegistrado == null ? "1990-01-01" : citaciones.FRegistrado;
-                    objCitacion['date_updated'] = citaciones.FNotificacion == null ? "1990-01-01" : citaciones.FNotificacion;
+                    objMeeting['date_start'] = citaciones.FCitacion == null ? "1990-01-01" : citaciones.FCitacion;
+                    objMeeting['date_end'] = citaciones.FVista == null ? "1990-01-01" : citaciones.FVista;
+                    objMeeting['date_created'] = citaciones.FRegistrado == null ? "1990-01-01" : citaciones.FRegistrado;
+                    objMeeting['date_updated'] = citaciones.FNotificacion == null ? "1990-01-01" : citaciones.FNotificacion;
                     
-                    objCitacion['created_by_id'] = citaciones.UsuarioId == 0 ? 1 : citaciones.UsuarioId;
-                    objCitacion['status'] = "";
-                    objCitacion['meeting_type'] = citaciones.Iniciales; //doubt
-                    objCitacion['somebody_armed'] = false;
-                    return objCitacion;
+                    objMeeting['created_by_id'] = citaciones.UsuarioId == 0 ? 1 : citaciones.UsuarioId;
+                    objMeeting['status'] = "";
+                    objMeeting['meeting_type'] = citaciones.Iniciales; //doubt
+                    objMeeting['somebody_armed'] = false;
+                    
+                    return objMeeting;
                 });
                 return cb(null, pgMeetings);
             });
