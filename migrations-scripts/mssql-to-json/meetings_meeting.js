@@ -12,29 +12,15 @@ module.exports = function(callback) {
         tblCitaciones: function(cb) {
             MSModels.tblCitaciones.findAll({raw: true}).then(function (citacionesList) {
                 var pgMeetings = citacionesList.map(function (citaciones) {
-                    var objMeetingRoom = {};
-
-                    objMeetingRoom['id'] = citaciones.id + MEETINGS_OFFSET_ID.OFFSET_TBL_ROOM;
-                    objMeetingRoom['name'] = 
-                    objMeetingRoom['location'] =;
-                    
-                    return objMeeting;
-                });
-                return cb(null, pgMeetings);
-            });
-        },
-        tblCitaciones: function(cb) {
-            MSModels.tblCitaciones.findAll({raw: true}).then(function (citacionesList) {
-                var pgMeetings = citacionesList.map(function (citaciones) {
                     var objMeeting = {};
 
                     objMeeting['id'] = citaciones.id + MEETINGS_OFFSET_ID.OFFSET_TBL_CITACIONES;
                     objMeeting['case_id'] = citaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES; 
-                    objMeeting['room_id'] = citaciones.Sala + MEETINGS_OFFSET_ID.OFFSET_TBL_ROOM;
-                    //{
-                      //  name: citaciones., //verify
-                        //location: citaciones.
-                    //}; //extraer de meetings room
+                    objMeeting['room_id'] = 
+                    {
+                        name: citaciones.Division == null ? "" : citaciones.Division, 
+                        location: ""
+                    }; 
                     objMeeting['notes'] = "";
                     objMeeting['created_by_id'] = citaciones.UsuarioId == 0 ? 1 : citaciones.UsuarioId;
                     objMeeting['status'] = "";
@@ -46,8 +32,6 @@ module.exports = function(callback) {
                     objMeeting['date_end'] = citaciones.FVista == null ? "1990-01-01" : citaciones.FVista;
                     objMeeting['date_created'] = citaciones.FRegistrado == null ? "1990-01-01" : citaciones.FRegistrado;
                     objMeeting['date_updated'] = citaciones.FNotificacion == null ? "1990-01-01" : citaciones.FNotificacion;
-                    
-
                     
                     return objMeeting;
                 });
