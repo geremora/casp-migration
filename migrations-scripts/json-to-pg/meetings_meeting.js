@@ -16,7 +16,7 @@ module.exports = function (callback) {
     var meetingsCitaciones = meetings['tblCitaciones'];
     async.series([
         function (cb) {
-            async.each(cases['tblCitaciones'], function (objCase, innerCb) {
+            async.each(meetingsCitaciones['tblCitaciones'], function (objCase, innerCb) {
                 PGModels.meetings_room.create(objCase['room_id']).then(function (meetingsRoom) {
                     objMeeting['room_id'] = meetingsRoom.get('id');
 
