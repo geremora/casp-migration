@@ -3,14 +3,14 @@ var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const migrationFile = __dirname + "/../migrations/cases_case.json";
+const migrationFile = __dirname + "/../migrations/events_event.json";
 const EVENTS_OFFSET_ID = require('../constants/events-constants').EVENTS_OFFSETS_ID;
 
 module.exports = function(callback) {
     async.series({
         tblTipoResolucion: function(cb) {
-            MSModels.tblTipoResolucion.findAll({raw: true}).then(function (tiporesolucionesList) {
-                var pgEvents = resolucionesList.map(function (tiporesoluciones) {
+            MSModels.tblTipoResolucion.findAll({raw: true}).then(function (tipoResolucionList) {
+                var pgEvents = tipoResolucionList.map(function (tiporesoluciones) {
                     var objEvent = {};
 
                     objEvent['id'] = tiporesoluciones.TipoResolucionId;
@@ -28,7 +28,7 @@ module.exports = function(callback) {
                 var pgEvents = resolucionesList.map(function (resoluciones) {
                     var objEvent = {};
 
-                    objEvent['id'] = resoluciones.ResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_RESOLUCIONES;
+                    objEvent['id'] = resoluciones.ResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_Resoluciones;
                     objEvent['comments'] = "";  //Blank 
                     objEvent['attached_file'] = resoluciones.NombreDoc; //permite null...
                     objEvent['requires_terms'] = resoluciones.ConInforme == 1 ? true : false;
@@ -37,7 +37,7 @@ module.exports = function(callback) {
                     objEvent['document_content'] = resoluciones.PDF == null ? "" : resoluciones.PDF;
                     objEvent['event_type_id'] = resoluciones.TipoResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_TipoResoluciones; //event type id
                     objEvent['created_by_id'] = resoluciones.UsuarioId == 0 ? 1 : resoluciones.UsuarioId; 
-                    objEvent['related_event_id'] = ; //primary id incoming events
+                    objEvent['related_event_id'] = ""; //primary id incoming events
                     
                     //Fechas
                     objEvent['date_created'] = resoluciones.FResolucion == null ? "1990-01-01" : resoluciones.FResolucion;
@@ -50,12 +50,13 @@ module.exports = function(callback) {
                 return cb(null, pgEvents);
             });
         },
+        
         tblResoluciones: function(cb) {
             MSModels.tblResoluciones.findAll({raw: true}).then(function (resolucionesList) {
                 var pgEvents = resolucionesList.map(function (resoluciones) {
                     var objEvent = {};
 
-                    objEvent['id'] = resoluciones.ResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_RESOLUCIONES;
+                    objEvent['id'] = resoluciones.ResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_Resoluciones;
                     objEvent['comments'] = "";  //Blank 
                     objEvent['attached_file'] = resoluciones.NombreDoc; //permite null...
                     objEvent['requires_terms'] = resoluciones.ConInforme == 1 ? true : false;
@@ -64,7 +65,7 @@ module.exports = function(callback) {
                     objEvent['document_content'] = resoluciones.PDF == null ? "" : resoluciones.PDF;
                     objEvent['event_type_id'] = resoluciones.TipoResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_TipoResoluciones;; //event type id
                     objEvent['created_by_id'] = resoluciones.UsuarioId == 0 ? 1 : resoluciones.UsuarioId; 
-                    objEvent['related_event_id'] = ; //primary id incoming events
+                    objEvent['related_event_id'] = ""; //primary id incoming events
                     objEvent['document_content'] = ""; //text
                     
                     //Fechas

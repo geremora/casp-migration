@@ -3,7 +3,7 @@ var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const migrationFile = __dirname + "/../migrations/cases_case.json";
+const migrationFile = __dirname + "/../migrations/meetings_meeting.json";
 const MEETINGS_OFFSET_ID = require('../constants/meetings-constants').MEETINGS_OFFSETS_ID;
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 
@@ -14,7 +14,7 @@ module.exports = function(callback) {
                 var pgMeetings = citacionesList.map(function (citaciones) {
                     var objMeeting = {};
 
-                    objMeeting['id'] = citaciones.id + MEETINGS_OFFSET_ID.OFFSET_TBL_CITACIONES;
+                    objMeeting['id'] = citaciones.CitacionId + MEETINGS_OFFSET_ID.OFFSET_TBL_CITACIONES;
                     objMeeting['case_id'] = citaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES; 
                     objMeeting['room_id'] = 
                     {
