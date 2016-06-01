@@ -10,15 +10,15 @@ const MIGRATION_FILE = __dirname + "/../migrations/meetings_meeting.json";
  * Reads the contacts_contact.json file and inserts it into the PG DB.
  */
 module.exports = function (callback) {
-    var contactsJson = jsonfile.readFileSync(MIGRATION_FILE);
-    var contacts = contactsJson['meetings_meeting'];
+    var meetingsJson = jsonfile.readFileSync(MIGRATION_FILE);
+    var meetings = meetingsJson['meetings_meeting'];
     
-    var meetingsCitaciones = contacts['tblCitaciones'];
+    var meetingsCitaciones = meetings['tblCitaciones'];
 
     
     async.series([
         function (cb) {
-            PGModels.contacts_contact.bulkCreate(meetingsCitaciones).then(function(result) {
+            PGModels.meetings_meeting.bulkCreate(meetingsCitaciones).then(function(result) {
                 return cb(null);
             });
         }

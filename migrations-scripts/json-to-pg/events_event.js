@@ -4,26 +4,32 @@ var PGModels = require('../../models-pg');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const MIGRATION_FILE = __dirname + "/../migrations/contacts_contact.json";
+const MIGRATION_FILE = __dirname + "/../migrations/events_event.json";
 
 /**
  * Reads the contacts_contact.json file and inserts it into the PG DB.
  */
 module.exports = function (callback) {
-    var contactsJson = jsonfile.readFileSync(MIGRATION_FILE);
-    var contacts = contactsJson['contacts_contact'];
+    var eventsJson = jsonfile.readFileSync(MIGRATION_FILE);
+    var events = eventsJson['contacts_contact'];
     
-    var eventsType = contacts['tblTipoResoluciones'];
-    var eventsOutgoing = contacts['tblResolucion'];
+    var eventsType = events['tblTipoResoluciones'];
+    var eventsOutgoing = events['tblResolucion'];
+    var eventsIngoing = events['tblResolucion'];
     
     async.series([
         function (cb) {
-            PGModels.contacts_contact.bulkCreate(eventsType).then(function(result) {
+            PGModels.events_event.bulkCreate(eventsType).then(function(result) {
                 return cb(null);
             });
         },
         function (cb) {
-            PGModels.contacts_contact.bulkCreate(eventsOutgoing).then(function(result) {
+            PGModels.events_event.bulkCreate(eventsOutgoing).then(function(result) {
+                return cb(null);
+            });
+        },
+        function (cb) {
+            PGModels.events_event.bulkCreate(eventsIngoing).then(function(result) {
                 return cb(null);
             });
         }
