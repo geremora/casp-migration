@@ -10,20 +10,6 @@ const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFF
 
 module.exports = function(callback) {
     async.series({
-        tblTipoAccion: function(cb) {
-            MSModels.tblTipoAccion.findAll({raw: true}).then(function (tipoAccionList) {
-                var typeCase = tipoAccionList.map(function(accion) {
-                    var objTypeCase = {};
-                    objTypeCase['id'] = accion.TipoAccionId;
-                    objTypeCase['name'] = accion.TipoAccion;
-                    objTypeCase['code'] = "A" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 1).toUpperCase();
-                    objTypeCase['description'] = "";
-                    return objTypeCase;
-                });
-
-                cb(null, typeCase);
-            });
-        },
         tblMaterias: function (cb) {
             MSModels.tblMaterias.findAll({raw: true}).then(function (materiaList) {
                 var categoryCase = materiaList.map(function (materia) {
@@ -53,7 +39,7 @@ module.exports = function(callback) {
                     objCase['created_by_id'] = radicaciones.UsuarioId == 0 ? 1 : radicaciones.UsuarioId;
                     objCase['defendant_id'] = radicaciones.AgenciaId + CONTACT_OFFSET_ID.OFFSET_TBL_AGENCIAS;
                     objCase['plaintiff_id'] = radicaciones.OficialExaminador == 0 ? 1 + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS :
-                    radicaciones.OficialExaminador + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS;
+                                              radicaciones.OficialExaminador + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS;
                     objCase['assigned_user_id'] = radicaciones.OficialExaminador == 0 ? 1 : radicaciones.OficialExaminador;
                     objCase['container_id'] = {
                         date_created: radicaciones.FRegistrado,
@@ -63,12 +49,6 @@ module.exports = function(callback) {
                     objCase['did_confirm_case_type'] = false;
                     objCase['record_holder_id'] = radicaciones.OficialExaminador == 0 ? 1 : radicaciones.OficialExaminador;
 
-                    MSModels.tblStatusCaso.findOne({
-                        where: {RadicacionId: objCase['id']},
-                        raw: true
-                    }).then(function(statusCaso) {
-
-                    });
                     return objCase;
                 });
                 return cb(null, pgCases);

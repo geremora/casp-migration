@@ -32,7 +32,6 @@ module.exports = function (callback) {
             }, function (error, result) {
                 if(error)
                     return cb(error);
-                console.log(result);
                 return cb(null, result);
             });
         }
