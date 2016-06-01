@@ -23,7 +23,7 @@ module.exports = function () {
        //
        // },
         cases: function(callback) {
-            require('./mssql-to-json/cases')(function(error) {
+            require('./mssql-to-json/meetings_meeting')(function(error) {
                 if(error) {
                     callback(error);
                 } else {
@@ -31,7 +31,20 @@ module.exports = function () {
                 }
             });
 
-        }
+        },
+        cases: function(callback) {
+            require('./mssql-to-json/events_event')(function(error) {
+                if(error) {
+                    callback(error);
+                } else {
+                    callback(null);
+                }
+            });
+
+        },
+
+        
+
 
     }, function(error, results) {
         if(error) {
