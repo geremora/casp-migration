@@ -35,16 +35,16 @@ module.exports = function(callback) {
                     objMeeting['requires_terms'] = "";
                     objMeeting['requires_acceptance'] = citaciones.Iniciales; //doubt
                     objMeeting['accepted'] = false;
-                    objEvent['event_type_id'] = resoluciones.TipoResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_TipoResoluciones; //event type id
-                    objEvent['created_by_id'] = resoluciones.UsuarioId == 0 ? 1 : resoluciones.UsuarioId; 
+                    objEvent['event_type_id'] = ""; //event type id
+                    objEvent['created_by_id'] = citaciones.UsuarioId == 0 ? 1 : citaciones.UsuarioId; 
                     objEvent['related_event_id'] = ""; //primary id incoming events
 
                     //Fechas
-                    objEvent['date_created'] = resoluciones.FResolucion == null ? "1990-01-01" : resoluciones.FResolucion;
-                    objEvent['date_updated'] = resoluciones.FFirma == null ? "1990-01-01" : resoluciones.FFirma; 
-                    objEvent['date_terms_expiration'] = resoluciones.FVenceConsiderar; //permite null
-                    objEvent['date_emitted'] = resoluciones.FInforme;   //permite null
-                    objEvent['date_notification'] = resoluciones.FBajoEstudio;  //permite null
+                    objEvent['date_created'] = citaciones.FCitacion == null ? "1990-01-01" : citaciones.FCitacion;
+                    objEvent['date_updated'] = citaciones.FRegistrado == null ? "1990-01-01" : citaciones.FRegistrado; 
+                    objEvent['date_terms_expiration'] = null; //permite null
+                    objEvent['date_emitted'] = citaciones.FVista;   //permite null
+                    objEvent['date_notification'] = citaciones.FNotificacion == null ? "1990-01-01" : citaciones.FNotificacion;  //permite null
                     
                     return objMeeting;
                 });

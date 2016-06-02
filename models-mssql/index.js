@@ -22,7 +22,7 @@ var sequelize = new Sequelize(database, username, password, {
     },
     dialectOptions: {
         encrypt: true,
-        requestTimeout: 50000
+        requestTimeout: 200000
     }
 });
 
