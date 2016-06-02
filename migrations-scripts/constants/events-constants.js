@@ -1,5 +1,5 @@
-const OFFSET_TBL_Resoluciones = 860000;
-const OFFSET_TBL_TipoResoluciones = 920000;
+//const OFFSET_TBL_Resoluciones = 860000;
+//const OFFSET_TBL_TipoResoluciones = 920000;
 
 const EVENTS_OFFSET_ID = {
 	OFFSET_TBL_Resoluciones: OFFSET_TBL_Resoluciones,

@@ -22,7 +22,10 @@ module.exports = function (callback) {
         },
         function (cb) {
             async.each(cases['tblRadicaciones'], function (objCase, innerCb) {
-                PGModels.cases_casecontainer.create(objCase['container_id']).then(function (caseContainer) {
+                PGModels.cases_casecontainer.findOrCreate({
+                    where: { date_created: objCase['container_id'].date_created },
+                    defaults: objCase['container_id']
+                }).spread(function (caseContainer, created) {
                     objCase['container_id'] = caseContainer.get('id');
 
                     PGModels.cases_case.create(objCase).then(function(caseObj) {
@@ -32,7 +35,6 @@ module.exports = function (callback) {
             }, function (error, result) {
                 if(error)
                     return cb(error);
-                console.log(result);
                 return cb(null, result);
             });
         }

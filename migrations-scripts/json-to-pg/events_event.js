@@ -16,6 +16,8 @@ module.exports = function (callback) {
     var eventsType = events['tblTipoResoluciones'];
     var eventsOutgoing = events['tblResolucion'];
     var eventsIngoing = events['tblResolucion'];
+    var eventsCitaciones = events['tblCitaciones'];
+
     
     async.series([
         function (cb) {
@@ -30,6 +32,11 @@ module.exports = function (callback) {
         },
         function (cb) {
             PGModels.events_event.bulkCreate(eventsIngoing).then(function(result) {
+                return cb(null);
+            });
+        },
+        function (cb) {
+            PGModels.events_event.bulkCreate(eventsCitaciones).then(function(result) {
                 return cb(null);
             });
         }

@@ -22,7 +22,7 @@ module.exports = function () {
        //     });
        //
        // },
-        cases: function(callback) {
+        meetings_meeting: function(callback) {
             require('./mssql-to-json/meetings_meeting')(function(error) {
                 if(error) {
                     callback(error);
@@ -30,23 +30,20 @@ module.exports = function () {
                     callback(null);
                 }
             });
-
-        },
-        cases: function(callback) {
-            require('./mssql-to-json/events_event')(function(error) {
-                if(error) {
-                    callback(error);
-                } else {
-                    callback(null);
-                }
-            });
-
         }
-
-    }, function(error, results) {
-        if(error) {
+        }, function(error, results) {
+          console.log(error);
+          if(error) {
             console.error(error);
         }
         process.exit();
     });
+        //cases_contacts: function (callback) {
+         //   require('./mssql-to-json/cases_contacts')(function(error) {
+          //      if(error) {
+           //         callback(error);
+           //     } else {
+          //          callback(null);
+           //     }
+            //});
 };
