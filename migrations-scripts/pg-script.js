@@ -18,15 +18,22 @@ module.exports = function () {
         //         return callback(null);
         //     });
         // },
-        cases_case: function(callback) {
-            require('./json-to-pg/cases')(function (error) {
-                if(error)
-                    return callback(error);
-                return callback(null);
-            });
-        },
-        cases_contacts: function (callback) {
-            require('./json-to-pg/cases_contacts')(function (error) {
+        // cases_case: function(callback) {
+        //     require('./json-to-pg/cases')(function (error) {
+        //         if(error)
+        //             return callback(error);
+        //         return callback(null);
+        //     });
+        // },
+        // cases_contacts: function (callback) {
+        //     require('./json-to-pg/cases_contacts')(function (error) {
+        //         if(error)
+        //             return callback(error);
+        //         return callback(null);
+        //     })
+        // },
+        meetings_meeting: function (callback) {
+            require('./json-to-pg/meetings_meeting')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);

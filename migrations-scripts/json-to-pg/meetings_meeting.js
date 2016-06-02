@@ -12,45 +12,21 @@ const MIGRATION_FILE = __dirname + "/../migrations/meetings_meeting.json";
 module.exports = function (callback) {
     var meetingsJson = jsonfile.readFileSync(MIGRATION_FILE);
     var meetings = meetingsJson['meetings_meeting'];
-    var meetingsCitaciones = meetings['tblCitaciones'];
-    var meetingsVistas = meetings['tblVistas'];
 
-    async.series([
-        function (cb) {
-            async.each(meetingsVistas['tblVistas'], function (objMeetings, innerCb) {
-                PGModels.meetings_room.create(objCase['room_id']).then(function (meetingsRoom) {
-                    objMeeting['room_id'] = meetingsRoom.get('id');
+    async.each(meetings, function (objMeetings, innerCb) {
+        PGModels.meetings_room.findOrCreate({
+            where: { name: objMeetings['room_id'].name },
+            defaults: objMeetings['room_id']
+        }).spread(function (meetingsRoom, created) {
+            objMeetings['room_id'] = meetingsRoom.get('id');
 
-                    PGModels.meetings_meeting.create(objMeetings).then(function(meetingObj) {
-                        return innerCb(null, meetingObj);
-                    });
-                });
-            }, function (error, result) {
-                if(error)
-                    return cb(error);
-                console.log(result);
-                return cb(null, result);
+            PGModels.meetings_meeting.create(objMeetings).then(function(meetingObj) {
+                return innerCb(null, meetingObj);
             });
-        }, 
-     //   function (cb) {
-       //     async.each(meetingsCitaciones['tblCitaciones'], function (objMeetings, innerCb) {
-         //       PGModels.meetings_room.create(objCase['room_id']).then(function (meetingsRoom) {
-          //          objMeeting['room_id'] = meetingsRoom.get('id');
-
-           //         PGModels.meetings_meeting.create(objMeetings).then(function(meetingObj) {
-         //               return innerCb(null, meetingObj);
-       //             });
-        //        });
-      //      }, function (error, result) {
-      //          if(error)
-      //              return cb(error);
-       //         console.log(result);
-         //       return cb(null, result);
-        //    });
-      //  } 
-       ], function (error, results) {
+        });
+    }, function (error, result) {
         if(error)
             return callback(error);
-        return callback();
+        return callback(null, result);
     });
 };

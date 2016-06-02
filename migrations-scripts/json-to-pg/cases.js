@@ -40,7 +40,7 @@ module.exports = function (callback) {
         }
     ], function (error, result) {
         if(error)
-            return callbac(error);
+            return callback(error);
         return callback();
     });
 

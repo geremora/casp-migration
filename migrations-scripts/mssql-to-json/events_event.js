@@ -59,7 +59,7 @@ module.exports = function(callback) {
                     objEvent['id'] = resoluciones.ResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_Resoluciones;
                     objEvent['comments'] = "";  //Blank 
                     objEvent['attached_file'] = resoluciones.NombreDoc; //permite null...
-                    objEvent['requires_terms'] = resoluciones.ConInforme == 1 ? true : false;
+                    objEvent['requires_terms'] = resoluciones.ConInforme == 1;
                     objEvent['requires_acceptance'] = false;
                     objEvent['accepted'] = false; 
                     objEvent['document_content'] = resoluciones.PDF == null ? "" : resoluciones.PDF;
@@ -68,36 +68,6 @@ module.exports = function(callback) {
                     objEvent['related_event_id'] = ""; //primary id incoming events
                     
                     //Fechas
-                    objEvent['date_created'] = resoluciones.FResolucion == null ? "1990-01-01" : resoluciones.FResolucion;
-                    objEvent['date_updated'] = resoluciones.FFirma == null ? "1990-01-01" : resoluciones.FFirma; 
-                    objEvent['date_terms_expiration'] = resoluciones.FVenceConsiderar; //permite null
-                    objEvent['date_emitted'] = resoluciones.FInforme;   //permite null
-                    objEvent['date_notification'] = resoluciones.FBajoEstudio;  //permite null
-                    return objEvent;
-                });
-                return cb(null, pgEvents);
-            });
-        },
-        
-        tblResoluciones: function(cb) {
-            MSModels.tblResoluciones.findAll({raw: true}).then(function (resolucionesList) {
-                var pgEvents = resolucionesList.map(function (resoluciones) {
-                    var objEvent = {};
-
-                    objEvent['id'] = resoluciones.ResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_Resoluciones;
-                    objEvent['comments'] = "";  //Blank 
-                    objEvent['attached_file'] = resoluciones.NombreDoc; //permite null...
-                    objEvent['requires_terms'] = resoluciones.ConInforme == 1 ? true : false;
-                    objEvent['requires_acceptance'] = false;
-                    objEvent['accepted'] = false; 
-                    objEvent['document_content'] = resoluciones.PDF == null ? "" : resoluciones.PDF;
-                    objEvent['event_type_id'] = resoluciones.TipoResolucionId + EVENTS_OFFSET_ID.OFFSET_TBL_TipoResoluciones;; //event type id
-                    objEvent['created_by_id'] = resoluciones.UsuarioId == 0 ? 1 : resoluciones.UsuarioId; 
-                    objEvent['related_event_id'] = ""; //primary id incoming events
-                    objEvent['document_content'] = ""; //text
-                    
-                    //Fechas
-                    objEvent['date_observed'] = "";
                     objEvent['date_created'] = resoluciones.FResolucion == null ? "1990-01-01" : resoluciones.FResolucion;
                     objEvent['date_updated'] = resoluciones.FFirma == null ? "1990-01-01" : resoluciones.FFirma; 
                     objEvent['date_terms_expiration'] = resoluciones.FVenceConsiderar; //permite null
