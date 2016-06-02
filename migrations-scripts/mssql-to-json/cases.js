@@ -5,7 +5,6 @@ var jsonfile = require('jsonfile');
 
 const migrationFile = __dirname + "/../migrations/cases_case.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
-const CASES_TYPE = require('../constants/cases-constants').CASES_TYPE;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
 
 module.exports = function(callback) {
@@ -28,11 +27,11 @@ module.exports = function(callback) {
                 var pgCases = radicacionesList.map(function (radicaciones) {
                     var objCase = {};
                     objCase['id'] = radicaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
-                    objCase['state'] = radicaciones.InActivo ? "closed" : "new";
+                    objCase['state'] = radicaciones.InActivo ? "closed" : "new"; // assigned later
                     objCase['case_category_id'] = radicaciones.MateriaId;
                     objCase['number'] = radicaciones.NumCaso;
-                    objCase['case_type_id'] = 1; // Pending type, assigned during insert
-                    objCase['description'] = radicaciones.InformeOficial == null ? "" : radicaciones.InformeOficial;
+                    objCase['case_type_id'] = 1; // Unassigned Pending type, assigned afterwards
+                    objCase['description'] = radicaciones.NombreCaso;
                     objCase['date_created'] = radicaciones.FRegistrado;
                     objCase['date_updated'] = radicaciones.FAccesado == null ? radicaciones.FRegistrado : radicaciones.FAccesado;
                     objCase['date_accepted'] = radicaciones.FRadicado == null ? "1990-01-01" : radicaciones.FRadicado;
@@ -40,7 +39,9 @@ module.exports = function(callback) {
                     objCase['defendant_id'] = radicaciones.AgenciaId + CONTACT_OFFSET_ID.OFFSET_TBL_AGENCIAS;
                     objCase['plaintiff_id'] = radicaciones.OficialExaminador == 0 ? 1 + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS :
                                               radicaciones.OficialExaminador + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS;
-                    objCase['assigned_user_id'] = radicaciones.OficialExaminador == 0 ? 1 : radicaciones.OficialExaminador;
+                    objCase['assigned_user_id'] = radicaciones.OficialExaminador == 0 ? null :
+                                                    radicaciones.OficialExaminador == 18 ? null :
+                                                      radicaciones.OficialExaminador; // nullable
                     objCase['container_id'] = {
                         date_created: radicaciones.FRegistrado,
                         date_updated: radicaciones.FRegistrado

@@ -30,10 +30,18 @@ module.exports = function () {
                     callback(null);
                 }
             });
-
+        },
+        cases_contacts: function (callback) {
+            require('./mssql-to-json/cases_contacts')(function(error) {
+                if(error) {
+                    callback(error);
+                } else {
+                    callback(null);
+                }
+            });
         }
-
     }, function(error, results) {
+        console.log(error);
         if(error) {
             console.error(error);
         }
