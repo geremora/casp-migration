@@ -41,10 +41,7 @@ module.exports = function () {
                 }
             });
 
-        },
-
-        
-
+        }
 
     }, function(error, results) {
         if(error) {
