@@ -21,7 +21,7 @@ module.exports = function (callback) {
             });
         },
         function (cb) {
-            async.each(cases['tblRadicaciones'], function (objCase, innerCb) {
+            async.eachSeries(cases['tblRadicaciones'], function (objCase, innerCb) {
                 PGModels.cases_casecontainer.findOrCreate({
                     where: { date_created: objCase['container_id'].date_created },
                     defaults: objCase['container_id']

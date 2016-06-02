@@ -13,7 +13,7 @@ module.exports = function (callback) {
     var meetingsJson = jsonfile.readFileSync(MIGRATION_FILE);
     var meetings = meetingsJson['meetings_meeting'];
 
-    async.each(meetings, function (objMeetings, innerCb) {
+    async.eachSeries(meetings, function (objMeetings, innerCb) {
         PGModels.meetings_room.findOrCreate({
             where: { name: objMeetings['room_id'].name },
             defaults: objMeetings['room_id']

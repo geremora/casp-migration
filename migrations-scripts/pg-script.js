@@ -39,13 +39,13 @@ module.exports = function () {
                 return callback(null);
             });
         },
-        // notes_note: function (callback) {
-        //     require('./json-to-pg/notes_note')(function (error) {
-        //         if(error)
-        //             return callback(error);
-        //         return callback(null);
-        //     });
-        // }
+        notes_note: function (callback) {
+            require('./json-to-pg/notes_note')(function (error) {
+                if(error)
+                    return callback(error);
+                return callback(null);
+            });
+        }
     }, function(error, results) {
         if(error) {
             console.error(error);

@@ -6,6 +6,7 @@ var jsonfile = require('jsonfile');
 const MIGRATION_FILE = __dirname + "/../migrations/notes_note.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 const NOTES_OFFSET_ID = require('../constants/notes-constants').NOTES_OFFSETS_ID;
+var PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
 
 module.exports = function(callback) {
     MSModels.tblTramite.findAll({
@@ -17,7 +18,9 @@ module.exports = function(callback) {
             objNotes['id'] = tramite.TramiteId + NOTES_OFFSET_ID.OFFSET_TBL_TRAMITE;
             objNotes['case_id'] = tramite.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES; 
             objNotes['content'] = tramite.Comentarios == null ? "" : tramite.Comentarios;
-            objNotes['created_by_id'] = tramite.UsuarioId == 0 ? 1 : tramite.UsuarioId;
+            objNotes['created_by_id'] = tramite.UsuarioId == null ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS : 
+                tramite.UsuarioId == 0 ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS : 
+                tramite.UsuarioId + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS;
             objNotes['date_created'] = tramite.FTramite == null ? "1970-01-01" : tramite.FTramite;
             objNotes['date_updated'] = tramite.FTramite == null ? "1970-01-01" : tramite.FTramite;
             return objNotes;

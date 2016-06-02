@@ -40,15 +40,15 @@ module.exports = function () {
         //         }
         //     });
         // },
-        meetings_meeting: function(callback) {
-            require('./mssql-to-json/meetings_meeting')(function(error) {
-                if(error) {
-                    callback(error);
-                } else {
-                    callback(null);
-                }
-            });
-        },
+        // meetings_meeting: function(callback) {
+        //     require('./mssql-to-json/meetings_meeting')(function(error) {
+        //         if(error) {
+        //             callback(error);
+        //         } else {
+        //             callback(null);
+        //         }
+        //     });
+        // },
         // notes_note: function(callback) {
         //     require('./mssql-to-json/notes_note')(function(error) {
         //         if(error) {

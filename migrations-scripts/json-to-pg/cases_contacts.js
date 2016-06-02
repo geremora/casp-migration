@@ -13,7 +13,7 @@ module.exports = function (callback) {
     var casesContactsJson = jsonfile.readFileSync(MIGRATION_FILE);
     var casesContacts = casesContactsJson['cases_contacts'];
     
-    PGModels.cases_contacts.bulkCreate(casesContacts).then(function(result) {
+    PGModels.cases_case_contacts.bulkCreate(casesContacts).then(function(result) {
         callback(null, result); 
     });
 };

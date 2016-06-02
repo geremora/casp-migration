@@ -167,7 +167,7 @@ module.exports = function(callback) {
                     objContact['city'] = lcdoPreinterventores['tblCiudade.Ciudad'] == null ? "PEND. ASIGNAR" : lcdoPreinterventores['tblCiudade.Ciudad'];
                     objContact['state'] = lcdoPreinterventores.Pais == null ? "PR" : lcdoPreinterventores.Pais;
                     objContact['zip_code'] = lcdoPreinterventores.ZipCode  == null ? "00000" : lcdoPreinterventores.ZipCode;
-                    objContact['contact_type_id'] = CONTACT_TYPES.REPRESENTANTE_EXCLUSIVO;
+                    objContact['contact_type_id'] = CONTACT_TYPES.ABOGADO_REPRESENTANTE;
                     objContact['notes'] = "";
                     objContact['related_instutution_id'] = null;
                     return objContact;
@@ -195,7 +195,7 @@ module.exports = function(callback) {
                     objContact['city'] = Preinterventores['tblCiudade.Ciudad'] == null ? "PEND. ASIGNAR" : Preinterventores['tblCiudade.Ciudad'];
                     objContact['state'] = Preinterventores.Pais == null ? "PR" : Preinterventores.Pais;
                     objContact['zip_code'] = Preinterventores.ZipCode == null ? "00000" : Preinterventores.ZipCode;
-                    objContact['contact_type_id'] = CONTACT_TYPES.ORGANIZACION_OBRERA;
+                    objContact['contact_type_id'] = CONTACT_TYPES.REPRESENTANTE_EXCLUSIVO;
                     objContact['notes'] = "";
                     objContact['related_instutution_id'] = null;
                     return objContact;

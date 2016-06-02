@@ -9,20 +9,24 @@ const MEETINGS_OFFSET_ID = require('../constants/meetings-constants').MEETINGS_O
 const MEETINGS_TYPES = require('../constants/meetings-constants').MEETINGS_TYPES;
 const MEETINGS_STATUS = require('../constants/meetings-constants').MEETINGS_STATUS;
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
+var PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
 
 module.exports = function(callback) {
     async.waterfall([
         function (cb) {
             MSModels.tblVistas.findAll({raw: true}).then(function (vistasList) {
-                async.each(vistasList, function (objVista, innerCB) {
+                async.eachSeries(vistasList, function (objVista, innerCB) {
                     MSModels.tblOrdenes.findOne({
                         where: { OrdenId: objVista.OrdenId },
                         raw: true
                     }).then(function (objOrden) {
-                        if(objOrden)
-                            objVista['UsuarioId'] = objOrden.UsuarioId;
-                        else
-                            objVista['UsuarioId'] = 1;
+                        if(objOrden) {
+                            objVista['UsuarioId'] = objOrden.UsuarioId == 0 ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS :
+                                                    objOrden.UsuarioId + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS;
+                        }
+                        else {
+                            objVista['UsuarioId'] = 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS;
+                        }
                         innerCB(null, objVista);
                     }).catch(function (error) {
                         console.log(error);
@@ -46,7 +50,8 @@ module.exports = function(callback) {
                     location: "San Juan"
                 };
                 objMeeting['notes'] = "";
-                objMeeting['created_by_id'] = vistas.UsuarioId == 0 ? 1 : vistas.UsuarioId;
+                objMeeting['created_by_id'] = vistas.UsuarioId;
+                
                 objMeeting['status'] = vistas.StatusVistasId == 1 ? MEETINGS_STATUS.CELEBRADA :
                                         vistas.StatusVistasId == 2 ? MEETINGS_STATUS.SIN_EFECTO :
                                         vistas.StatusVistasId == 3 ? MEETINGS_STATUS.SUSPENDIDA_APELADA:
@@ -78,17 +83,10 @@ module.exports = function(callback) {
                 date_end_parsed = moment(date_end_parsed);
 
                 if(date_start_parsed.isAfter(date_end_parsed)) {
-                    console.log("isAfter");
                     var end_date = date_end_parsed.toDate();
                     end_date.setDate(end_date.getDate() + 1);
                     date_end_parsed = moment(end_date);
-                    console.log("/isAfert");
                 }
-
-                console.log("start moment");
-                console.log(date_start_parsed.format("YYYY-MM-DD HH:mm:ss") + " <- Date Start");
-                console.log(date_end_parsed.format("YYYY-MM-DD HH:mm:ss") + " <- Date End");
-                console.log("/start moment");
 
                 //Fechas
                 objMeeting['date_start'] = date_start_parsed.format("YYYY-MM-DD HH:mm:ss");
