@@ -2,6 +2,7 @@
 var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
+var moment = require('moment');
 
 const migrationFile = __dirname + "/../migrations/meetings_meeting.json";
 const MEETINGS_OFFSET_ID = require('../constants/meetings-constants').MEETINGS_OFFSETS_ID;
@@ -65,9 +66,33 @@ module.exports = function(callback) {
 
                 objMeeting['somebody_armed'] = false;
 
+                var date_start = parseDate(vistas.FVista);
+                var date_end = date_start;
+
+                var time_start = parseTimeStr(vistas.HComienzo);
+                var time_end = parseTimeStr(vistas.HFinalizo);
+
+                var date_start_parsed = moment(date_start + " " + time_start, "YYYY-MM-DD HH:mm:ss").toDate();
+                date_start_parsed = moment(date_start_parsed);
+                var date_end_parsed = moment(date_end + " " + time_end, "YYYY-MM-DD HH:mm:ss").toDate();
+                date_end_parsed = moment(date_end_parsed);
+
+                if(date_start_parsed.isAfter(date_end_parsed)) {
+                    console.log("isAfter");
+                    var end_date = date_end_parsed.toDate();
+                    end_date.setDate(end_date.getDate() + 1);
+                    date_end_parsed = moment(end_date);
+                    console.log("/isAfert");
+                }
+
+                console.log("start moment");
+                console.log(date_start_parsed.format("YYYY-MM-DD HH:mm:ss") + " <- Date Start");
+                console.log(date_end_parsed.format("YYYY-MM-DD HH:mm:ss") + " <- Date End");
+                console.log("/start moment");
+
                 //Fechas
-                objMeeting['date_start'] = vistas.FVista == null ? "1970-01-01" : vistas.FVista;
-                objMeeting['date_end'] = vistas.Resenalamiento == null ? "1970-01-01" : vistas.Resenalamiento;
+                objMeeting['date_start'] = date_start_parsed.format("YYYY-MM-DD HH:mm:ss");
+                objMeeting['date_end'] = date_end_parsed.format("YYYY-MM-DD HH:mm:ss");
                 objMeeting['date_created'] = vistas.FOrden == null ? "1970-01-01" : vistas.FOrden;
                 objMeeting['date_updated'] = vistas.FStatus == null ? "1970-01-01" : vistas.FStatus;
                 return objMeeting;
@@ -89,4 +114,23 @@ function mapMeetings(callback, results) {
     var meetingsJson = {meetings_meeting: results};
     jsonfile.writeFileSync(migrationFile, meetingsJson, {spaces: 4});
     return callback();
+}
+
+function parseDate(date) {
+    return date.getFullYear() + "-"
+        + ('0'+(date.getMonth() + 1)).slice(-2) + "-"
+        + ('0' + date.getDate()).slice(-2);
+}
+
+function parseTimeStr(timeStr) {
+    if(timeStr == "")
+        return "00:00:00";
+
+    var time = moment(timeStr, "hh:mm:ss a");
+    if(!time.isValid()) {
+        time = moment(timeStr, "hh:mm a").format("HH:mm:ss");
+    } else {
+        time = time.format("HH:mm:ss");
+    }
+    return time;
 }

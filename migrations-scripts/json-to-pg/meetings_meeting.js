@@ -21,12 +21,17 @@ module.exports = function (callback) {
             objMeetings['room_id'] = meetingsRoom.get('id');
 
             PGModels.meetings_meeting.create(objMeetings).then(function(meetingObj) {
-                return innerCb(null, meetingObj);
+                var meetingId = meetingObj.get('id');
+                var caseId = meetingObj.get('case_id');
+
+                PGModels.meetings_meeting_cases.create({ meeting_id: meetingId, case_id: caseId }).then(function (meetingCase) {
+                    return innerCb(null);
+                });
             });
         });
-    }, function (error, result) {
+    }, function (error) {
         if(error)
             return callback(error);
-        return callback(null, result);
+        return callback(null);
     });
 };

@@ -30,15 +30,22 @@ module.exports = function () {
         //         if(error)
         //             return callback(error);
         //         return callback(null);
-        //     })
+        //     });
         // },
         meetings_meeting: function (callback) {
             require('./json-to-pg/meetings_meeting')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
-            })
-        }
+            });
+        },
+        // notes_note: function (callback) {
+        //     require('./json-to-pg/notes_note')(function (error) {
+        //         if(error)
+        //             return callback(error);
+        //         return callback(null);
+        //     });
+        // }
     }, function(error, results) {
         if(error) {
             console.error(error);

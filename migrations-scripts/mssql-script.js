@@ -49,15 +49,15 @@ module.exports = function () {
                 }
             });
         },
-        notes_note: function(callback) {
-            require('./mssql-to-json/notes_note')(function(error) {
-                if(error) {
-                    callback(error);
-                } else {
-                    callback(null);
-                }
-            });
-        }
+        // notes_note: function(callback) {
+        //     require('./mssql-to-json/notes_note')(function(error) {
+        //         if(error) {
+        //             callback(error);
+        //         } else {
+        //             callback(null);
+        //         }
+        //     });
+        // }
         }, function(error, results) {
             if(error) {
                 console.error(error);
