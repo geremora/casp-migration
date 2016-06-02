@@ -30,10 +30,9 @@ module.exports = function () {
                     callback(null);
                 }
             });
-
         },
-        cases: function(callback) {
-            require('./mssql-to-json/events_event')(function(error) {
+        cases_contacts: function (callback) {
+            require('./mssql-to-json/cases_contacts')(function(error) {
                 if(error) {
                     callback(error);
                 } else {
@@ -42,11 +41,15 @@ module.exports = function () {
             });
 
         },
-
-        
-
-
+        events_event: function(callback) {
+            require('./mssql-to-json/events_event')(function(error) {
+                if(error)
+                    return callback(error);
+                return callback();
+            });
+        }
     }, function(error, results) {
+        console.log(error);
         if(error) {
             console.error(error);
         }

@@ -24,6 +24,13 @@ module.exports = function () {
                     return callback(error);
                 return callback(null);
             });
+        },
+        cases_contacts: function (callback) {
+            require('./json-to-pg/cases_contacts')(function (error) {
+                if(error)
+                    return callback(error);
+                return callback(null);
+            })
         }
     }, function(error, results) {
         if(error) {
