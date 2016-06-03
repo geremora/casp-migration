@@ -21,6 +21,13 @@ module.exports = function (callback) {
             });
         },
         function (cb) {
+            var casesCategory = cases['tblSubMaterias'];
+
+            PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
+                return cb(null, casesCategoryList);
+            });
+        },
+        function (cb) {
             async.eachSeries(cases['tblRadicaciones'], function (objCase, innerCb) {
                 PGModels.cases_casecontainer.findOrCreate({
                     where: { date_created: objCase['container_id'].date_created },

@@ -57,6 +57,13 @@ module.exports = function () {
                     callback(null);
                 }
             });
+        },
+        notes_note: function (callback) {
+            require('./mssql-to-json/notes_note')(function (error) {
+                if(error)
+                    return callback(error);
+                return callback(null);
+            })
         }
         }, function(error, results) {
             if(error) {

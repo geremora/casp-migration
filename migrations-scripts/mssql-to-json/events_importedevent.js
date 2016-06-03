@@ -5,8 +5,7 @@ var jsonfile = require('jsonfile');
 
 const MIGRATION_FILE = __dirname + "/../migrations/events_importedevent.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
-const NOTES_OFFSET_ID = require('../constants/notes-constants').NOTES_OFFSETS_ID;
-var PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
+const EVENTS_IMPORTED_OFFSET_ID = require('../constants/events-constants').EVENTS_IMPORTED_OFFSET_ID;
 
 module.exports = function(callback) {
     MSModels.tblTramite.findAll({
@@ -15,9 +14,9 @@ module.exports = function(callback) {
     }).then(function(tramiteList) {
         var pgEvents  = tramiteList.map(function(tramite) {
             var objEvent = {};
-            objEvent['id'] = tramite.TramiteId + NOTES_OFFSET_ID.OFFSET_TBL_TRAMITE;
+            objEvent['id'] = tramite.TramiteId + EVENTS_IMPORTED_OFFSET_ID.OFFSET_TBL_TRAMITE;
             objEvent['case_id'] = tramite.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
-            console.log(objEvent)
+
             if(tramite.OrdenId != 0)
                 objEvent['event_type'] = "Orden";
             else if(tramite.VistaId != 0)
@@ -34,8 +33,8 @@ module.exports = function(callback) {
         });
 
         // write to a json file.
-        var notesJson = {events_importedevent: pgEvents};
-        jsonfile.writeFileSync(MIGRATION_FILE, notesJson, {spaces: 4});
+        var eventsJson = {events_importedevent: pgEvents};
+        jsonfile.writeFileSync(MIGRATION_FILE, eventsJson, {spaces: 4});
         callback();
     });
 };

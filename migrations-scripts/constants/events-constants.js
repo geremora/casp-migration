@@ -1,10 +1,11 @@
-//const OFFSET_TBL_Resoluciones = 860000;
-//const OFFSET_TBL_TipoResoluciones = 920000;
-
 const EVENTS_OFFSET_ID = {
-	OFFSET_TBL_Resoluciones: OFFSET_TBL_Resoluciones,
-    OFFSET_TBL_TipoResoluciones: OFFSET_TBL_TipoResoluciones
-    
+	OFFSET_TBL_Resoluciones: 8000,
+    OFFSET_TBL_TipoResoluciones: 2000
 };
 
+const EVENTS_IMPORTED_OFFSET_ID = {
+    OFFSET_TBL_TRAMITE: 980000
+};
+
+module.exports.EVENTS_IMPORTED_OFFSET_ID = EVENTS_IMPORTED_OFFSET_ID;
 module.exports.	EVENTS_OFFSETS_ID = EVENTS_OFFSET_ID;

@@ -5,6 +5,7 @@ var jsonfile = require('jsonfile');
 
 const migrationFile = __dirname + "/../migrations/cases_case.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
+const CASES_CATEGORY_OFFSET_ID = require('../constants/cases-constants').CASES_CATEGORY_OFFSET_ID;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
 var PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
 
@@ -14,7 +15,7 @@ module.exports = function(callback) {
             MSModels.tblMaterias.findAll({raw: true}).then(function (materiaList) {
                 var categoryCase = materiaList.map(function (materia) {
                     var objCategoryCase = {};
-                    objCategoryCase['id'] = materia.MateriaId;
+                    objCategoryCase['id'] = materia.MateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_MATERIA;
                     objCategoryCase['name'] = materia.Materia;
                     objCategoryCase['description'] = "";
                     return objCategoryCase;
@@ -23,13 +24,29 @@ module.exports = function(callback) {
                 cb(null, categoryCase);
             });
         },
+        tblSubMaterias: function (cb) {
+            MSModels.tblSubMaterias.findAll({
+                where: { SubMateriaId: { $gt: 1 } },
+                raw: true
+            }).then(function(subMateriaList) {
+                var categoryCase = subMateriaList.map(function (subMateria) {
+                    var objCategoryCase = {};
+                    objCategoryCase['id'] = subMateria.SubMateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_SUBMATERIA;
+                    objCategoryCase['name'] = subMateria.SubMateria;
+                    objCategoryCase['description'] = "";
+                    return objCategoryCase;
+                });
+
+                cb(null, categoryCase);
+            })
+        },
         tblRadicaciones: function(cb) {
             MSModels.tblRadicaciones.findAll({raw: true}).then(function (radicacionesList) {
                 var pgCases = radicacionesList.map(function (radicaciones) {
                     var objCase = {};
                     objCase['id'] = radicaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
                     objCase['state'] = radicaciones.InActivo ? "closed" : "new"; // assigned later
-                    objCase['case_category_id'] = radicaciones.MateriaId;
+                    objCase['case_category_id'] = radicaciones.MateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_MATERIA;
                     objCase['number'] = radicaciones.NumCaso;
                     objCase['case_type_id'] = 1; // Unassigned Pending type, assigned afterwards
                     objCase['description'] = radicaciones.NombreCaso;
