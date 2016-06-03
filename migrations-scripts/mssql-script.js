@@ -2,7 +2,7 @@ const async = require('async');
 
 module.exports = function () {
     async.series({
-        profiles_caspusers: function(callback) {
+        profiles_caspuser: function(callback) {
            require('./mssql-to-json/profiles_caspuser')(function(error) {
                if(error) {
                    callback(error);
@@ -49,8 +49,8 @@ module.exports = function () {
                 }
             });
         },
-        notes_note: function(callback) {
-            require('./mssql-to-json/notes_note')(function(error) {
+        events_importedevent: function(callback) {
+            require('./mssql-to-json/events_importedevent')(function(error) {
                 if(error) {
                     callback(error);
                 } else {
