@@ -106,6 +106,11 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'cases_case',
-    timestamps: false
+    timestamps: false,
+    classMethods: {
+      associate: function (models) {
+        this.belongsTo(models.contacts_contact, { foreignKey: 'defendant_id', constraints: false });
+      }
+    }
   });
 };

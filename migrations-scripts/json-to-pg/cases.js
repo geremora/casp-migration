@@ -29,10 +29,7 @@ module.exports = function (callback) {
         },
         function (cb) {
             async.eachSeries(cases['tblRadicaciones'], function (objCase, innerCb) {
-                PGModels.cases_casecontainer.findOrCreate({
-                    where: { date_created: objCase['container_id'].date_created },
-                    defaults: objCase['container_id']
-                }).spread(function (caseContainer, created) {
+                PGModels.cases_casecontainer.create(objCase).then(function(caseContainer) {
                     objCase['container_id'] = caseContainer.get('id');
 
                     PGModels.cases_case.create(objCase).then(function(caseObj) {

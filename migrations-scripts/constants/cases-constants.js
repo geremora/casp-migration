@@ -4,7 +4,9 @@ const OFFSET_TBL_RADICACIONES = 420000;
 
 const CASES_TYPE = {
     UNASIGNED: 1,
-    ARBITRAJE: 2
+    ARBITRAJE: 2,
+    SA: 13,
+    SM: 14
 };
 
 const CASES_OFFSET_ID = {
