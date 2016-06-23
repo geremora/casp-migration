@@ -31,7 +31,7 @@ module.exports = function (callback) {
         function(cb) {
             PGModels.cases_case.findAll({
                 raw: true,
-                attributes: ['id', 'number', 'case_type_id'],
+                attributes: ['id', 'number', 'description', 'case_type_id'],
                 include: [{model: PGModels.contacts_contact, attributes: ['institutional_name']}],
                 order: [['date_created', 'ASC']]
             }).then(function (casesList) {
@@ -43,8 +43,8 @@ module.exports = function (callback) {
             var saSequenceList = {};
 
             var newCasesList = casesList.map(function (objCase) {
+                var originalNumber = objCase.number;
                 var caseYear = objCase.number.substring(0, 4);
-                console.log(caseYear);
                 var caseYearLastId;
 
                 if(objCase['contacts_contact.institutional_name'].indexOf('MUNICIPIO') > -1) {
@@ -67,6 +67,8 @@ module.exports = function (callback) {
                     objCase['number'] = generateCaseNumber(caseYear, saSequenceList[caseYear], "SA");
                 }
                 delete objCase['contacts_contact.institutional_name'];
+                objCase['description'] = objCase['number'] + " " + originalNumber + " " + objCase['description'];
+
                 return objCase;
             });
 
@@ -108,10 +110,14 @@ module.exports = function (callback) {
                 function(seriesCB) {
                     PGModels.cases_casesequence.bulkCreate(updatedCases['smSequence']).then(function (createdSeq) {
                         seriesCB();
+                    }).catch(function (error) {
+                        seriesCB();
                     });
                 },
                 function(seriesCB) {
                     PGModels.cases_casesequence.bulkCreate(updatedCases['saSequence']).then(function (createdSeq) {
+                        seriesCB();
+                    }).catch(function (error) {
                         seriesCB();
                     });
                 }
