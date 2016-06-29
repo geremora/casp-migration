@@ -137,8 +137,6 @@ module.exports = function (callback) {
 };
 
 function generateCaseNumber(year, caseGeneratedId, caseTypeCode) {
-    console.log(year);
-    console.log(year.substring(2,4));
     return caseTypeCode + "-" + year.substring(2, 4) + "-" + formatId(caseGeneratedId);
 }
 
