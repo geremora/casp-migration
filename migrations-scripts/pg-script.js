@@ -51,15 +51,22 @@ module.exports = function () {
         //         if(error)
         //             return callback(error);
         //         return callback(null);
-        //     })
+        //     });
         // },
-        cases_update: function (callback) {
-            require('./update-pg-data/update_cases')(function (error) {
+        // cases_update: function (callback) {
+        //     require('./update-pg-data/update_cases')(function (error) {
+        //         if(error)
+        //             return callback(error);
+        //         return callback(null);
+        //     });
+        // },
+        user_permission: function (callback) {
+            require('./json-to-pg/users_permissions')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
-            })
-        }
+            });
+        },
     }, function(error, results) {
         if(error) {
             console.error(error);
