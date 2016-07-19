@@ -52,7 +52,11 @@ module.exports = function(sequelize, DataTypes) {
     AgenciaId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: '((0))'
+      defaultValue: '((0))',
+      references: {
+        model: 'tblAgencias',
+        key: 'AgenciaId'
+      }
     },
     NumApelantes: {
       type: DataTypes.INTEGER,
@@ -75,7 +79,11 @@ module.exports = function(sequelize, DataTypes) {
     CiudadId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      defaultValue: '((0))'
+      defaultValue: '((0))',
+      references: {
+        model: 'tblCiudades',
+        key: 'CiudadId'
+      }
     },
     Pais: {
       type: DataTypes.STRING,
@@ -277,6 +285,13 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'tblRadicaciones',
-    timestamps: false
+    timestamps: false,
+    classMethods: {
+      associate: function (models) {
+        this.hasMany(models.tblLcdoAgenciaCasos, {foreignKey: 'RadicacionId'});
+        this.belongsTo(models.tblCiudades, { foreignKey: 'CiudadId', constraints: false });
+        this.belongsTo(models.tblAgencias, { foreignKey: 'AgenciaId', constraints: false });
+      }
+    }
   });
 };

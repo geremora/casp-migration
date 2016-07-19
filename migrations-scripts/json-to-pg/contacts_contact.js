@@ -20,6 +20,7 @@ module.exports = function (callback) {
     var contactsLcdoCoApelantes = contacts['tblLcdoCoApelantes'];
     var contactsLcdoPreinterventores = contacts['tblLcdoPreinterventores'];
     var contactsPreinterventores = contacts['tblPreinterventores'];
+    var contactsRadicaciones = contacts['tblRadicaciones'];
     
     async.series([
         function (cb) {
@@ -56,6 +57,11 @@ module.exports = function (callback) {
             PGModels.contacts_contact.bulkCreate(contactsPreinterventores).then(function(result) {
                 return cb(null);
             });
+        },
+        function (cb) {
+            PGModels.contacts_contact.bulkCreate(contactsRadicaciones).then(function (result) {
+                return cb(null);
+            })
         }
     ], function (error, results) {
         if(error)

@@ -1,4 +1,6 @@
 /* jshint indent: 2 */
+var tblRadicaciones = require('./tblRadicaciones');
+var tblAgencias = require('./tblAgencias');
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('tblLcdoAgenciaCasos', {
@@ -9,11 +11,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     RadicacionId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: tblRadicaciones,
+        key: 'RadicacionId'
+      }
     },
     AgenciaId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: tblAgencias,
+        key: 'AgenciaId'
+      }
     },
     LcdoAgenciaId: {
       type: DataTypes.INTEGER,
@@ -25,6 +35,12 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     tableName: 'tblLcdoAgenciaCasos',
-    timestamps: false
+    timestamps: false,
+    classMethods: {
+      associate: function (models) {
+        this.belongsTo(models.tblRadicaciones, { foreignKey: 'RadicacionId', constraints: false });
+        this.belongsTo(models.tblAgencias, { foreignKey: 'AgenciaId', constraints: false });
+      }
+    }
   });
 };

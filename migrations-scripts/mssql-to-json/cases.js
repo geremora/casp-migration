@@ -2,12 +2,13 @@
 var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
+var caseGenerator = require('../../utils/case-generator');
 
 const migrationFile = __dirname + "/../migrations/cases_case.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 const CASES_CATEGORY_OFFSET_ID = require('../constants/cases-constants').CASES_CATEGORY_OFFSET_ID;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
-var PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
+const PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
 
 module.exports = function(callback) {
     async.series({
@@ -41,7 +42,10 @@ module.exports = function(callback) {
             })
         },
         tblRadicaciones: function(cb) {
-            MSModels.tblRadicaciones.findAll({raw: true}).then(function (radicacionesList) {
+            MSModels.tblRadicaciones.findAll({
+                raw: true,
+                include: [{model: MSModels.tblAgencias, attributes: ['Agencia']}]
+            }).then(function (radicacionesList) {
                 var pgCases = radicacionesList.map(function (radicaciones) {
                     var objCase = {};
                     objCase['id'] = radicaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
@@ -56,8 +60,8 @@ module.exports = function(callback) {
                     objCase['created_by_id'] = radicaciones.UsuarioId == 0 ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS :
                                                radicaciones.UsuarioId + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS;
                     objCase['defendant_id'] = radicaciones.AgenciaId + CONTACT_OFFSET_ID.OFFSET_TBL_AGENCIAS;
-                    objCase['plaintiff_id'] = radicaciones.OficialExaminador == 0 ? 1 + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS :
-                                              radicaciones.OficialExaminador + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS;
+                    objCase['plaintiff_id'] = radicaciones.RadicacionId + CONTACT_OFFSET_ID.OFFSET_TBL_RADICACIONES;
+
                     objCase['assigned_user_id'] = radicaciones.OficialExaminador == 0 ? null :
                                                     radicaciones.OficialExaminador == 18 ? null :
                                                       radicaciones.OficialExaminador + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS; // nullable
@@ -71,7 +75,10 @@ module.exports = function(callback) {
                                                     radicaciones.OficialExaminador == 18 ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS :
                                                     radicaciones.OficialExaminador + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS;
 
-                    return objCase;
+                    return caseGenerator(objCase,
+                        radicaciones.NumCaso,
+                        radicaciones['tblAgencia.Agencia']
+                    );
                 });
                 return cb(null, pgCases);
             });
@@ -90,3 +97,4 @@ function mapCases(callback, results) {
     jsonfile.writeFileSync(migrationFile, casesJson, {spaces: 4});
     return callback();
 }
+

@@ -9,20 +9,62 @@ const CASES_OFFSET_IDS = require('../constants/cases-constants').CASES_OFFSETS_I
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
 
 module.exports = function(callback) {
-    MSModels.tblLcdoAgenciaCasos.findAll({raw: true}).then(function(lcdoAgenciaCasosList) {
-        var pgCaseContact  = lcdoAgenciaCasosList.map(function(lcdoAgenciaCasos) {
-            var objCaseContact = {};
-            objCaseContact['case_id'] = lcdoAgenciaCasos.RadicacionId + CASES_OFFSET_IDS.OFFSET_TBL_RADICACIONES;
-            objCaseContact['contact_id'] = lcdoAgenciaCasos.LcdoAgenciaId + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS;
-            return objCaseContact;
-        });
+    async.series({
+        tblLcdoAgenciaCasos: function (cb) {
+            MSModels.tblLcdoAgenciaCasos.findAll({raw: true}).then(function(lcdoAgenciaCasosList) {
+                var pgCaseContact  = lcdoAgenciaCasosList.map(function(lcdoAgenciaCasos) {
+                    var objCaseContact = {};
+                    objCaseContact['case_id'] = lcdoAgenciaCasos.RadicacionId + CASES_OFFSET_IDS.OFFSET_TBL_RADICACIONES;
+                    objCaseContact['contact_id'] = lcdoAgenciaCasos.LcdoAgenciaId + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_AGENCIAS;
+                    return objCaseContact;
+                });
 
-        // write to a json file.
-        var cases_contactsJson = {cases_contacts: pgCaseContact};
+                cb(null, pgCaseContact)
+            });
+        },
+        tblLcdoApelante: function (cb) {
+            MSModels.tblLcdoApelante.findAll({raw: true}).then(function(lcdoApelanteList) {
+                var pgCaseContact = lcdoApelanteList.map(function (lcdoApelante) {
+                    var objCaseContact = {};
+                    objCaseContact['case_id'] = lcdoApelante.RadicacionId + CASES_OFFSET_IDS.OFFSET_TBL_RADICACIONES;
+                    objCaseContact['contact_id'] = lcdoApelante.LcdoApelanteId + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_APELANTE;
+                    return objCaseContact;
+                });
+
+                cb(null, pgCaseContact);
+            });
+        },
+        tblLcdoCoApelantes: function (cb) {
+            MSModels.tblLcdoCoApelantes.findAll({
+                raw: true,
+                include: {model: MSModels.tblCoApelantes, attributes: ['RadicacionId']}
+            }).then(function(lcdoCoApelanteList) {
+                var pgCaseContact = lcdoCoApelanteList.map(function (lcdoCoApelante) {
+                    var objCaseContact = {};
+                    objCaseContact['case_id'] = lcdoCoApelante['tblCoApelante.RadicacionId'] + CASES_OFFSET_IDS.OFFSET_TBL_RADICACIONES;
+                    objCaseContact['contact_id'] = lcdoCoApelante.LcdoCoApelanteId + CONTACT_OFFSET_ID.OFFSET_TBL_LCDO_COAPELANTES;
+                    return objCaseContact;
+                });
+
+                cb(null, pgCaseContact);
+            })
+        },
+        tblCoApelantes: function (cb) {
+            MSModels.tblCoApelantes.findAll({raw: true}).then(function (coApelantesList) {
+                var pgCaseContact = coApelantesList.map(function (coApelante) {
+                    var objCaseContact = {};
+                    objCaseContact['case_id'] = coApelante.RadicacionId + CASES_OFFSET_IDS.OFFSET_TBL_RADICACIONES;
+                    objCaseContact['contact_id'] = coApelante.CoApelanteId + CONTACT_OFFSET_ID.OFFSET_TBL_COAPELANTES;
+                    return objCaseContact;
+                });
+
+                cb(null, pgCaseContact);
+            })
+        }
+    }, function (error, results) {
+
+        var cases_contactsJson = {cases_contacts: results};
         jsonfile.writeFileSync(migrationFile, cases_contactsJson, {spaces: 4});
         callback();
-    }).catch(function(error) {
-        console.error(error);
-        callback(error);
     });
 };

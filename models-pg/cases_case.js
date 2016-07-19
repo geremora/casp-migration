@@ -32,6 +32,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
+    old_number: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     description: {
       type: DataTypes.TEXT,
       allowNull: false

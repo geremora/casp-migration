@@ -71,7 +71,7 @@ module.exports = function(callback) {
 
                 objMeeting['somebody_armed'] = false;
 
-                var date_start = parseDate(vistas.FVista);
+                var date_start = moment.utc(vistas.FVista).format("YYYY-MM-DD");
                 var date_end = date_start;
 
                 var time_start = parseTimeStr(vistas.HComienzo);
@@ -117,7 +117,7 @@ function mapMeetings(callback, results) {
 function parseDate(date) {
     return date.getFullYear() + "-"
         + ('0'+(date.getMonth() + 1)).slice(-2) + "-"
-        + ('0' + date.getDate()).slice(-2);
+        + ('0' + (date.getDate())).slice(-2);
 }
 
 function parseTimeStr(timeStr) {

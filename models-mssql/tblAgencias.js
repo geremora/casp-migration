@@ -58,6 +58,7 @@ module.exports = function(sequelize, DataTypes) {
       classMethods: {
         associate: function (models) {
           this.belongsTo(models.tblCiudades, { foreignKey: 'CiudadId', constraints: false });
+          this.hasMany(models.tblLcdoAgenciaCasos, {foreignKey: 'AgenciaId'});
         }
       }
   });

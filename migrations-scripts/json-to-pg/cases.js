@@ -6,6 +6,12 @@ var jsonfile = require('jsonfile');
 
 const MIGRATION_FILE = __dirname + "/../migrations/cases_case.json";
 
+const CASES_TYPE = require('../constants/cases-constants').CASES_TYPE;
+var formatCaseNumber = require('../../utils/case-generator').formatCaseNumber;
+
+var smSequenceList = {};
+var saSequenceList = {};
+
 /**
  * Reads the cases_case.json file and inserts it into the PG DB.
  */
@@ -34,6 +40,31 @@ module.exports = function (callback) {
 
                     PGModels.cases_case.create(objCase).then(function(caseObj) {
                         return innerCb(null, caseObj);
+                    }).catch(function (error) {
+                        var caseYearLastId;
+                        var caseYear = objCase.old_number.substring(0, 4);
+
+                        if(objCase.case_type_id == CASES_TYPE.SA) {
+                            caseYearLastId = saSequenceList[caseYear];
+                            if(caseYearLastId == undefined || caseYear == null) {
+                                saSequenceList[caseYear] = 9999;
+                            } else {
+                                saSequenceList[caseYear] = caseYearLastId - 1;
+                            }
+                            objCase['number'] = formatCaseNumber(caseYear, caseYearLastId, "SA");
+                        } else {
+                            caseYearLastId = smSequenceList[caseYear];
+                            if(caseYearLastId == undefined || caseYear == null) {
+                                smSequenceList[caseYear] = 9999;
+                            } else {
+                                smSequenceList[caseYear] = caseYearLastId - 1;
+                            }
+                            objCase['number'] = formatCaseNumber(caseYear, caseYearLastId, "SM");
+                        }
+
+                        PGModels.cases_case.create(objCase).then(function(caseObj) {
+                            return innerCb(null, caseObj);
+                        })
                     });
                 });
             }, function (error, result) {

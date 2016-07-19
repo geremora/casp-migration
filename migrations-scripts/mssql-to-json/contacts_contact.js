@@ -83,7 +83,7 @@ module.exports = function(callback) {
                     objContact['city'] = lcdoAgencia['tblCiudade.Ciudad'] == null ? "PEND. ASIGNAR" : lcdoAgencia['tblCiudade.Ciudad'];
                     objContact['state'] = lcdoAgencia.Pais == null ? "PR" : lcdoAgencia.Pais;
                     objContact['zip_code'] = lcdoAgencia.ZipCode  == null ? "00000" : lcdoAgencia.ZipCode;
-                    objContact['contact_type_id'] = CONTACT_TYPES.EMPLEADO;
+                    objContact['contact_type_id'] = CONTACT_TYPES.ABOGADO_REPRESENTANTE;
                     objContact['notes'] = "";
                     objContact['related_instutution_id'] = lcdoAgencia.AgenciaId == 238? null :
                                                            lcdoAgencia.AgenciaId == 0? null :
@@ -204,6 +204,32 @@ module.exports = function(callback) {
             }).catch(function(error) {
                 return cb(error);
             });
+        },
+        tblRadicaciones: function (cb) {
+            MSModels.tblRadicaciones.findAll({
+                raw: true,
+                include: [{model: MSModels.tblCiudades, attributes: ['Ciudad']}]
+            }).then(function (radicacionesList) {
+                var pgContact = radicacionesList.map(function (radicaciones) {
+                    var objContact = {};
+                    objContact['id'] = radicaciones.RadicacionId + CONTACT_OFFSET_ID.OFFSET_TBL_RADICACIONES;
+                    objContact['institutional_name'] = "";
+                    objContact['first_name'] = radicaciones.Nombre == null ? "" : radicaciones.Nombre;
+                    objContact['last_name'] = radicaciones.Apellidos == null ? "" : radicaciones.Apellidos;
+                    objContact['email'] = radicaciones.EMail == null ? "" : radicaciones.EMail;
+                    objContact['phone1'] = radicaciones.TelResidencia == null ? "000-000-0000" : radicaciones.TelResidencia;
+                    objContact['phone2'] = radicaciones.TelTrabajo == null ? "" : radicaciones.TelTrabajo;
+                    objContact['address'] = radicaciones.UrbPOBox == null ? "" : radicaciones.UrbPOBox;
+                    objContact['city'] = radicaciones['tblCiudade.Ciudad'] == null ? "PEND. ASIGNAR" : radicaciones['tblCiudade.Ciudad'];
+                    objContact['state'] = radicaciones.Pais == null ? "PR" : radicaciones.Pais;
+                    objContact['zip_code'] = radicaciones.ZipCode == null ? "00000" : radicaciones.ZipCode;
+                    objContact['contact_type_id'] = CONTACT_TYPES.CIUDADANO;
+                    objContact['notes'] = "";
+                    objContact['related_instutution_id'] = null;
+                    return objContact
+                });
+                return cb(null, pgContact);
+            })
         }
     }, function(error, results) {
         if(error) {
