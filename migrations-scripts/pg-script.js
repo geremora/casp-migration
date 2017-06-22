@@ -2,7 +2,7 @@ const async = require('async');
 
 module.exports = function () {
     async.series({
-        profiles_caspuser: function(callback) {
+     /*  profiles_caspuser: function(callback) {
             require('./json-to-pg/profiles_caspuser')(function(error) {
                 if(error) {
                     callback(error);
@@ -10,28 +10,28 @@ module.exports = function () {
                     callback(null);
                 }
             });
-        },
-        contacts_contact: function(callback) {
+        },*/
+     /*  contacts_contact: function(callback) {
             require('./json-to-pg/contacts_contact')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
             });
-        },
-        cases_case: function(callback) {
+        },*/
+        /*cases_case: function(callback) {
             require('./json-to-pg/cases')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
             });
-        },
-        cases_contacts: function (callback) {
+        },*/
+       /* cases_contacts: function (callback) {
             require('./json-to-pg/cases_contacts')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
             });
-        },
+        },*/
         meetings_meeting: function (callback) {
             require('./json-to-pg/meetings_meeting')(function (error) {
                 if(error)
@@ -53,13 +53,13 @@ module.exports = function () {
                 return callback(null);
             });
         },
-        user_permission: function (callback) {
+        /*user_permission: function (callback) {
             require('./json-to-pg/users_permissions')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
             });
-        },
+        },*/
     }, function(error, results) {
         if(error) {
             console.error(error);

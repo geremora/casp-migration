@@ -4,7 +4,7 @@ var async = require('async');
 var jsonfile = require('jsonfile');
 var caseGenerator = require('../../utils/case-generator');
 
-const migrationFile = __dirname + "/../migrations/cases_case.json";
+const migrationFile = __dirname + "/migrations/cases_case.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 const CASES_CATEGORY_OFFSET_ID = require('../constants/cases-constants').CASES_CATEGORY_OFFSET_ID;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
@@ -71,6 +71,9 @@ module.exports = function(callback) {
                     };
                     objCase['extra'] = JSON.stringify({});
                     objCase['did_confirm_case_type'] = false;
+                    objCase['active'] = true;
+                    objCase['mediation'] = false;
+                    objCase['was_mediation'] = false;
                     objCase['record_holder_id'] = radicaciones.OficialExaminador == 0 ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS : 
                                                     radicaciones.OficialExaminador == 18 ? 1 + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS :
                                                     radicaciones.OficialExaminador + PROFILES_CASPUSER_OFFSET_IDS.OFFSET_TBL_USUARIOS;

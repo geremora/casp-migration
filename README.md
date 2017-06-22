@@ -40,12 +40,14 @@ $ node manage.js testPGModel
 To migrate the databases from MSSQL to PG we have to run the following commands:
 
 ```
-$ node manage.js migrate-mssql
+$ node --max_old_space_size=8000 manage.js  migrate-mssql
 $ node manage.js migrate-pg
 ```
 
 The first command `migrate-mssql` will transform the data from the table into a json file,
 so later when you run `migrate-pg` it will read from the json file and insert it into the PG
 DB.
+
+Note: The last time I had to use --max_old_space_size=8000 parameter in node manage.js migrate-mssql 
 
 Enjoy!

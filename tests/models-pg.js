@@ -19,8 +19,8 @@ module.exports = function() {
                 callback(error);
             });
         },
-        cases_case_contacts: function(callback) {
-            PGModels.cases_case_contacts.findAll({raw: true}).then(function(casesCaseContact) {
+        cases_contactcaserole: function(callback) {
+            PGModels.cases_contactcaserole.findAll({raw: true}).then(function(casesCaseContact) {
                 callback(null, casesCaseContact.length);
             }).catch(function(error) {
                 callback(error);

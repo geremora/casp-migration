@@ -3,7 +3,7 @@ var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const migrationFile = __dirname + "/../migrations/events_event.json";
+const migrationFile = __dirname + "/migrations/events_event.json";
 const EVENTS_OFFSET_ID = require('../constants/events-constants').EVENTS_OFFSETS_ID;
 
 module.exports = function(callback) {

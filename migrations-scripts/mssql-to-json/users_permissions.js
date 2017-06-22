@@ -6,7 +6,7 @@ var jsonfile = require('jsonfile');
 var PROFILES_CASPUSERS_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
 var PG_PERMISSIONS = require('../constants/permissions-constants').PG_PERMISSIONS;
 
-const MIGRATION_FILE = __dirname + "/../migrations/auth_permissions.json";
+const MIGRATION_FILE = __dirname + "/migrations/auth_permissions.json";
 
 
 module.exports = function(callback) {

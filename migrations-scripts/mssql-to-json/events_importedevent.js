@@ -3,7 +3,7 @@
 var MSModels = require('../../models-mssql');
 var jsonfile = require('jsonfile');
 
-const MIGRATION_FILE = __dirname + "/../migrations/events_importedevent.json";
+const MIGRATION_FILE = __dirname + "/migrations/events_importedevent.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 const EVENTS_IMPORTED_OFFSET_ID = require('../constants/events-constants').EVENTS_IMPORTED_OFFSET_ID;
 

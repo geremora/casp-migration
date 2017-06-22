@@ -3,7 +3,7 @@
 var MSModels = require('../../models-mssql');
 var jsonfile = require('jsonfile');
 
-const MIGRATION_FILE = __dirname + "/../migrations/notes_note.json";
+const MIGRATION_FILE = __dirname + "/migrations/notes_note.json";
 const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID;
 const NOTES_OFFSET_ID = require('../constants/notes-constants').NOTES_OFFSETS_ID;
 var PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;

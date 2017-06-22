@@ -100,6 +100,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    mediation: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
+    was_mediation: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    },
     record_holder_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
