@@ -4,7 +4,7 @@ var PGModels = require('../../models-pg');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const MIGRATION_FILE = __dirname + "/../migrations/cases_case.json";
+const MIGRATION_FILE = __dirname + "/../mssql-to-json/migrations/cases_case.json";
 
 const CASES_TYPE = require('../constants/cases-constants').CASES_TYPE;
 var formatCaseNumber = require('../../utils/case-generator').formatCaseNumber;
@@ -24,14 +24,18 @@ module.exports = function (callback) {
 
             PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
                 return cb(null, casesCategoryList);
-            });
+            }).catch(function(err) {
+                    console.log(err);
+                });
         },
         function (cb) {
             var casesCategory = cases['tblSubMaterias'];
 
             PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
                 return cb(null, casesCategoryList);
-            });
+            }).catch(function(err) {
+                    console.log(err);
+                });
         },
         function (cb) {
             async.eachSeries(cases['tblRadicaciones'], function (objCase, innerCb) {

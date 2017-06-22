@@ -5,7 +5,7 @@ var async = require('async');
 var jsonfile = require('jsonfile');
 var PROFILES_CASPUSERS_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
 
-const MIGRATION_FILE = __dirname + "/../migrations/profiles_caspuser.json";
+const MIGRATION_FILE = __dirname + "/migrations/profiles_caspuser.json";
 
 /**
  * Extract data from tblUsuarios and makes a json file  with the format

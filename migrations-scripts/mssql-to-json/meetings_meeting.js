@@ -4,7 +4,7 @@ var async = require('async');
 var jsonfile = require('jsonfile');
 var moment = require('moment');
 
-const migrationFile = __dirname + "/../migrations/meetings_meeting.json";
+const migrationFile = __dirname + "/migrations/meetings_meeting.json";
 const MEETINGS_OFFSET_ID = require('../constants/meetings-constants').MEETINGS_OFFSETS_ID;
 const MEETINGS_TYPES = require('../constants/meetings-constants').MEETINGS_TYPES;
 const MEETINGS_STATUS = require('../constants/meetings-constants').MEETINGS_STATUS;

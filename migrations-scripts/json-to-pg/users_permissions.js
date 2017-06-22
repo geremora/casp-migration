@@ -4,7 +4,7 @@ var PGModels = require('../../models-pg');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const MIGRATION_FILE = __dirname + "/../migrations/auth_permissions.json";
+const MIGRATION_FILE = __dirname + "/../mssql-to-json/migrations/auth_permissions.json";
 
 /**
  * Reads the profiles_caspuser.json file and inserts it into the PG DB.

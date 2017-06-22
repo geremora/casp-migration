@@ -3,7 +3,7 @@ var MSModels = require('../../models-mssql');
 var async = require('async');
 var jsonfile = require('jsonfile');
 
-const MIGRATION_FILE = __dirname + "/../migrations/contacts_contact.json";
+const MIGRATION_FILE = __dirname + "/migrations/contacts_contact.json";
 const CONTACT_TYPES = require('../constants/contacts-constants').CONTACT_TYPES;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
 
