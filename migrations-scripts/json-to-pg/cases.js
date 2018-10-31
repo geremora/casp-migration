@@ -19,23 +19,23 @@ module.exports = function (callback) {
     var casesJson = jsonfile.readFileSync(MIGRATION_FILE);
     var cases = casesJson['cases'];
     async.series([
-        /*function (cb) {
-        var casesCategory = cases['tblMaterias'];
-
-        PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
-            return cb(null, casesCategoryList);
-        }).catch(function(err) {
-                console.log(err);
-            }); // No creamos nuevas materias, usamos la correspondencia entre las nuevas y las existentes
-        },*/
         function (cb) {
-            var casesSubCategory = cases['tblSubMaterias'];
+            var casesCategory = cases['tblMaterias'];
 
-            PGModels.cases_casesubcategory.bulkCreate(casesSubCategory).then(function(casesCategoryList) {
+            PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
                 return cb(null, casesCategoryList);
             }).catch(function(err) {
-                    console.log(err);
-                });
+                console.log(err);
+            });
+        },
+        function (cb) {
+            var casesCategory = cases['tblSubMaterias'];
+
+            PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
+                return cb(null, casesCategoryList);
+            }).catch(function(err) {
+                console.log(err);
+            });
         },
         function (cb) {
             async.eachSeries(cases['tblRadicaciones'], function (objCase, innerCb) {
