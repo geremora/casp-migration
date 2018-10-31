@@ -46,7 +46,7 @@ module.exports = function(callback) {
                 objMeeting['case_id'] = vistas.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
                 objMeeting['room_id'] =
                 {
-                    name: "Sala #" + vistas.Sala,
+                    name: "Salon 101",//"Sala #" + vistas.Sala,
                     location: "San Juan"
                 };
                 objMeeting['notes'] = "";

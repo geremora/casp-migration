@@ -40,6 +40,7 @@ module.exports = function () {
                 }
             });
         },
+
         meetings_meeting: function(callback) {
             require('./mssql-to-json/meetings_meeting')(function(error) {
                 if(error) {
@@ -58,6 +59,7 @@ module.exports = function () {
                 }
             });
         },
+
         notes_note: function (callback) {
             require('./mssql-to-json/notes_note')(function (error) {
                 if(error)
@@ -65,17 +67,17 @@ module.exports = function () {
                 return callback(null);
             })
         },
-        user_permissions: function (callback) {
+        /*user_permissions: function (callback) {
             require('./mssql-to-json/users_permissions')(function (error) {
                 if(error)
                     return callback(error);
                 return callback(null);
             });
-        }
-        }, function(error, results) {
-            if(error) {
-                console.error(error);
-            }
-            process.exit();
-        });
+        }*/
+}, function(error, results) {
+    if(error) {
+        console.error(error);
+    }
+    process.exit();
+});
 };

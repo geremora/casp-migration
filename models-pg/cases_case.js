@@ -92,6 +92,14 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
+      case_sub_category_id: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+              model: 'cases_casesubcategory',
+              key: 'id'
+          }
+      },
     extra: {
       type: DataTypes.JSON,
       allowNull: false

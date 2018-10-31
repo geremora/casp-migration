@@ -9,6 +9,10 @@ manage.testPGModel = function() {
 manage.testMSModel = function () {
     require('./tests/models-mssql')();
 };
+
+manage.testMSModel = function () {
+    require('./tests/pgOld-pgNew')();
+};
 manage.migrateMSSQL = function() {
     require('./migrations-scripts/mssql-script')();
 };

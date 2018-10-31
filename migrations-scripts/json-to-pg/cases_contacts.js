@@ -26,13 +26,13 @@ module.exports = function(callback) {
                 console.error(err);
             });
         },
-        /*function(cb) {
+        function(cb) {
             PGModels.cases_contactcaserole.bulkCreate(contactLcdoApelante).then(function(result) {
                 cb(null, result);
             }).catch(function(err) {
                 console.error(err);
             });
-        },*/
+        },
         function(cb) {
             PGModels.cases_contactcaserole.bulkCreate(contactLcdoCoApelante).then(function(result) {
                 cb(null, result);

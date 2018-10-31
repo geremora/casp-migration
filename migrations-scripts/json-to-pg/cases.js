@@ -19,19 +19,19 @@ module.exports = function (callback) {
     var casesJson = jsonfile.readFileSync(MIGRATION_FILE);
     var cases = casesJson['cases'];
     async.series([
-        function (cb) {
-            var casesCategory = cases['tblMaterias'];
+        /*function (cb) {
+        var casesCategory = cases['tblMaterias'];
 
-            PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
-                return cb(null, casesCategoryList);
-            }).catch(function(err) {
-                    console.log(err);
-                });
-        },
+        PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
+            return cb(null, casesCategoryList);
+        }).catch(function(err) {
+                console.log(err);
+            }); // No creamos nuevas materias, usamos la correspondencia entre las nuevas y las existentes
+        },*/
         function (cb) {
-            var casesCategory = cases['tblSubMaterias'];
+            var casesSubCategory = cases['tblSubMaterias'];
 
-            PGModels.cases_casecategory.bulkCreate(casesCategory).then(function(casesCategoryList) {
+            PGModels.cases_casesubcategory.bulkCreate(casesSubCategory).then(function(casesCategoryList) {
                 return cb(null, casesCategoryList);
             }).catch(function(err) {
                     console.log(err);

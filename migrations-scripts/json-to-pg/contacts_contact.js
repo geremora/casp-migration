@@ -23,55 +23,55 @@ module.exports = function (callback) {
     var contactsRadicaciones = contacts['tblRadicaciones'];
     
     async.series([
-       /*function (cb) {
+       function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsAgencias).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                 });
-        },*/
-       /*function (cb) {
+        },
+       function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsCoApelantes).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                 });
-        },*/
-       /* function (cb) {
+        },
+        function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsLcdoAgencia).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                 });
-        },*/
-    /*   function (cb) {
+        },
+       function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsLcdoApelante).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                 });
-        },*/
-      /*  function (cb) {
+        },
+        function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsLcdoCoApelantes).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                });
-        },*/
-       /*function (cb) {
+        },
+       function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsLcdoPreinterventores).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                 });
-        },*/
-       /* function (cb) {
+        },
+        function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsPreinterventores).then(function(result) {
                 return cb(null);
             }).catch(function(err) {
                     console.error(err);
                 });
-        },*/
+        },
         function (cb) {
             PGModels.contacts_contact.bulkCreate(contactsRadicaciones).then(function (result) {
                 return cb(null);

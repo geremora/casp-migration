@@ -9,6 +9,36 @@ const CASES_OFFSET_ID = require('../constants/cases-constants').CASES_OFFSETS_ID
 const CASES_CATEGORY_OFFSET_ID = require('../constants/cases-constants').CASES_CATEGORY_OFFSET_ID;
 const CONTACT_OFFSET_ID = require('../constants/contacts-constants').CONTACT_OFFSETS_ID;
 const PROFILES_CASPUSER_OFFSET_IDS = require('../constants/users-constants').PROFILES_CASPUSER_OFFSET_IDS;
+const CASES_CATEGORIES_ARRAY = new Map([
+    [1, 4],
+    [2, 5],
+    [3, 12],
+    [4, 163],
+    [5, 1],
+    [6, 6],
+    [7, 183],
+    [8, 3],
+    [9, 14],
+    [10, 189],
+    [11, 9],
+    [14, 7],
+    [16, 159],
+    [17, 3038],
+    [18, 7],
+    [19, 4],
+    [20, 4],
+    [21, 988],
+    [22, 394],
+    [23, 15],
+    [24, 787],
+    [25, 17],
+    [35, 19],
+    [36, 14],
+    [38, 10],
+    [39, 1],
+    [33, 16],
+    [34, 3]
+]);
 
 module.exports = function(callback) {
     async.series({
@@ -16,7 +46,8 @@ module.exports = function(callback) {
             MSModels.tblMaterias.findAll({raw: true}).then(function (materiaList) {
                 var categoryCase = materiaList.map(function (materia) {
                     var objCategoryCase = {};
-                    objCategoryCase['id'] = materia.MateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_MATERIA;
+                    //objCategoryCase['id'] = materia.MateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_MATERIA;
+                    objCategoryCase['id'] = CASES_CATEGORIES_ARRAY.get( materia.MateriaId );
                     objCategoryCase['name'] = materia.Materia;
                     objCategoryCase['description'] = "";
                     return objCategoryCase;
@@ -32,7 +63,7 @@ module.exports = function(callback) {
             }).then(function(subMateriaList) {
                 var categoryCase = subMateriaList.map(function (subMateria) {
                     var objCategoryCase = {};
-                    objCategoryCase['id'] = subMateria.SubMateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_SUBMATERIA;
+                    objCategoryCase['id'] = subMateria.SubMateriaId;
                     objCategoryCase['name'] = subMateria.SubMateria;
                     objCategoryCase['description'] = "";
                     return objCategoryCase;
@@ -50,7 +81,9 @@ module.exports = function(callback) {
                     var objCase = {};
                     objCase['id'] = radicaciones.RadicacionId + CASES_OFFSET_ID.OFFSET_TBL_RADICACIONES;
                     objCase['state'] = radicaciones.InActivo ? "closed" : "new"; // assigned later
-                    objCase['case_category_id'] = radicaciones.MateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_MATERIA;
+                    //objCase['case_category_id'] = radicaciones.MateriaId + CASES_CATEGORY_OFFSET_ID.OFFSET_TBL_MATERIA;
+                    objCase['case_category_id'] =  CASES_CATEGORIES_ARRAY.get( radicaciones.MateriaId);
+                    objCase['case_sub_category_id'] = radicaciones.SubMateriaId
                     objCase['number'] = radicaciones.NumCaso;
                     objCase['case_type_id'] = 1; // Unassigned Pending type, assigned afterwards
                     objCase['description'] = radicaciones.NombreCaso;
